@@ -1,30 +1,28 @@
 import { Link } from "react-router-dom";
+import { FaBell, FaRegQuestionCircle, FaUser } from "react-icons/fa";
+import { IconContext } from "react-icons";
+import "./Navbar.css";
 
 const Navbar = () => {
   return (
-    <nav style={styles.nav}>
-      <img src="/logo.png" alt="Logo" style={styles.logo} />
-      <div style={styles.links}>
-        <Link to="/">Community</Link>
-        <Link to="/dashboard">Dashboard</Link>
+    <nav className="navbar">
+      <div className="nav-left">
+        <img src="/logo.png" alt="Logo" className="logo" />
+        <Link to="/fitness" className="nav-link">Fitness</Link>
+        <Link to="/" className="nav-link">Community</Link>
       </div>
-      <img src="/user.png" alt="User" style={styles.user} />
+      <div className="nav-right">
+        <span className="user">Bienvenido, Usuario!</span>
+        <IconContext.Provider
+          value={{ className: "nav-icon" }}
+        >
+          <FaBell />
+          <FaRegQuestionCircle />
+          <FaUser />
+        </IconContext.Provider>
+      </div>
     </nav>
   );
-};
-
-const styles = {
-  nav: {
-    display: "flex",
-    justifyContent: "start",
-    padding: "10px 20px",
-    background: "#fff",
-    color: "#686868",
-    alignItems: "center",
-  },
-  logo: { height: "40px" },
-  user: { height: "40px", borderRadius: "50%" },
-  links: { display: "flex", gap: "15px" },
 };
 
 export default Navbar;

@@ -2,9 +2,9 @@ const Sidebar = () => {
     return (
       <div style={styles.sidebar}>
         <ul>
-          <li>Profile</li>
-          <li>Settings</li>
-          <li>Logout</li>
+          <li>Rutina</li>
+          <li>Rutina 2</li>
+          <li>Rutina 3</li>
         </ul>
       </div>
     );
