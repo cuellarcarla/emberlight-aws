@@ -1,12 +1,17 @@
 import Sidebar from "../components/Sidebar";
+import "./Fitness.css";
 
 const Fitness = () => {
   return (
     <div style={{ display: "flex" }}>
       <Sidebar />
-      <div style={{ flex: 1, padding: "20px" }}>
-        <h1>Fitness</h1>
-        <p>Welcome to your fitness!</p>
+      <div class="fitness-dashboard">
+        <div class="fitness-demo">
+          video.mp4
+        </div>
+        <div class="fitness-timer">
+          00:00
+        </div>
       </div>
     </div>
   );

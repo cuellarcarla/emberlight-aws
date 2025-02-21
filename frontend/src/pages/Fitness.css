@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #DEFFD3;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: #333;
+}
+
+form {
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    gap: 10px;
+}
+
+input, button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: white;
+    margin: 10px auto;
+    padding: 10px;
+    max-width: 400px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.fitness-dashboard {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    flex-direction: column;
+    margin: 23px 20px 25px;
+    gap: 15px;
+}
+
+.fitness-demo, .fitness-timer{
+    background: #fff;
+    padding: 0 100px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.fitness-demo {
+    column-width: 500px;
+    min-height: 340px;
+}
+
+.fitness-timer {
+    column-width: 500px;
+    min-height: 190px;
+}
