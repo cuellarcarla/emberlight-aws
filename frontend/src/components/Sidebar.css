@@ -1,0 +1,26 @@
+.sidebar {
+    width: 200px;
+    height: 84vh;
+    background: #fff;
+    color: green;
+    padding: 20px;
+    margin-top: 3px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    padding: 10px 0;
+    font-weight: 400;
+    color: white;
+    background: linear-gradient(to right, #00C500, #25EC25);
+}
+
+.sidebar li:hover {
+    cursor: pointer;
+}
+  
