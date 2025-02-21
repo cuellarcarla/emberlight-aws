@@ -7,10 +7,11 @@ const Fitness = () => {
       <Sidebar />
       <div class="fitness-dashboard">
         <div class="fitness-demo">
-          video.mp4
+          <img src="/fitness-template.jpeg" alt="fitness-template" className="fitness-template"/>
         </div>
         <div class="fitness-timer">
-          00:00
+          <p class="fitness-title">FLEXIONES</p>
+          <p class="fitness-timer-count">00:30</p>
         </div>
       </div>
     </div>

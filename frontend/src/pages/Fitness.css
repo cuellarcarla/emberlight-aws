@@ -58,17 +58,37 @@ li {
 
 .fitness-demo, .fitness-timer{
     background: #fff;
-    padding: 0 100px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .fitness-demo {
-    column-width: 500px;
+    column-width: 800px;
     min-height: 340px;
 }
 
 .fitness-timer {
-    column-width: 500px;
+    column-width: 800px;
     min-height: 190px;
+}
+
+p.fitness-title {
+    color: #44634A;
+    font-size: 30px;
+    margin: 10px 0px 0px;
+}
+
+p.fitness-timer-count {
+    color: #2CA72C;
+    font-size: 80px;
+    font-weight: 500;
+    margin: 0px 0px 10px;
+    line-height: 60px;
+}
+
+img.fitness-template {
+    margin-top: 20px;
+    width: 720px;
+    height: 300px;
+    border: 1px solid red;
 }
