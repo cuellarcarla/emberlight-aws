@@ -67,6 +67,25 @@ app.get("/api/posts", (req, res) => {
   });
 });
 
+
+app.post("/api/login", (req, res) => {
+  const { username, password } = req.body;
+
+  const sql = "SELECT id, username, email FROM users WHERE username = ? AND password = ?";
+  db.query(sql, [username, password], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    
+    if (results.length === 0) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const user = results[0];
+    res.json({ username: user.username, email: user.email });
+  });
+});
+
+
+
 // Start Server
 /*const PORT = 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

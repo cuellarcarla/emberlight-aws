@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import { FaBell, FaRegQuestionCircle, FaUser } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import "./AppNavbar.css";
+import { useAuth } from "../AuthContext";
 
 const AppNavbar = () => {
+  const { user, logout } = useAuth();
+
   return (
     <nav className="navbar">
       <div className="nav-left">
@@ -12,7 +15,7 @@ const AppNavbar = () => {
         <Link to="/community" className="nav-link">COMMUNITY</Link>
       </div>
       <div className="nav-right">
-        <span className="user">Bienvenido, Usuario!</span>
+        <span className="user">Bienvenido, {user.username}!</span>
         <IconContext.Provider
           value={{ className: "nav-icon" }}
         >

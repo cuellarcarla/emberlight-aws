@@ -4,7 +4,7 @@ import "./Community.css";
 
 const socket = io("http://localhost:5000");
 
-function Community() {
+function Community() {    
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
