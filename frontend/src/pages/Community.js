@@ -34,7 +34,7 @@ function Community() {
 
     setTitle("");
     setContent("");
-    //window.location.reload(); // Reload to fetch new posts
+    //window.location.reload();
   };
 
   return (

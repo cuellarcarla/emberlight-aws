@@ -45,3 +45,25 @@ color: limegreen;
 .nav-link:hover {
     text-decoration: underline;
 }
+
+.dropdown {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgb(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 100;
+}
+
+.logout-option {
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.logout-option:hover {
+    background-color: #f1f1f1;
+}

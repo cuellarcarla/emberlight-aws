@@ -1,11 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBell, FaRegQuestionCircle, FaUser } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import "./AppNavbar.css";
 import { useAuth } from "../AuthContext";
+import { useState } from "react";
 
 const AppNavbar = () => {
   const { user, logout } = useAuth();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <nav className="navbar">
@@ -15,14 +27,21 @@ const AppNavbar = () => {
         <Link to="/community" className="nav-link">COMMUNITY</Link>
       </div>
       <div className="nav-right">
-        <span className="user">Bienvenido, {user.username}!</span>
+      {user && <span className="user">Bienvenido, {user.username}!</span>}
         <IconContext.Provider
           value={{ className: "nav-icon" }}
         >
           <FaBell />
           <FaRegQuestionCircle />
-          <FaUser />
+          <div className="user-icon" onClick={toggleDropdown}> {/* User icon that triggers dropdown */}
+            <FaUser />
+          </div>
         </IconContext.Provider>
+        {dropdownOpen && (
+          <div className="dropdown">
+            <div className="logout-option" onClick={handleLogout}>Logout</div>
+          </div>
+        )}
       </div>
     </nav>
   );
