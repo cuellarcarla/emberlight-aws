@@ -1,48 +1,38 @@
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import MainNavbar from "./components/MainNavbar";
 import AppNavbar from "./components/AppNavbar";
 import Login from "./pages/Login";
 import Community from "./pages/Community";
 import Fitness from "./pages/Fitness";
+import NotFound from "./pages/NotFound";
+import MainPage from "./pages/MainPage";
+import { useAuth } from "./AuthContext";
 
-const Layout = ({ isLoggedIn, username, onLogout, children }) => {
+const Layout = ({ children }) => {
   const location = useLocation();
+  const { user, logout } = useAuth();
   const showMainNavbar = ["/", "/login"].includes(location.pathname);
 
   return (
     <>
-      {showMainNavbar ? <MainNavbar /> : <AppNavbar username={username} onLogout={onLogout} />}
+      {showMainNavbar ? <MainNavbar /> : <AppNavbar username={user} onLogout={logout} />}
       {children}
     </>
   );
 };
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
-
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      setIsLoggedIn(true);
-      setUsername(user);
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    setIsLoggedIn(false);
-    setUsername("");
-  };
+  const { user } = useAuth();
 
   return (
     <Router>
-      <Layout isLoggedIn={isLoggedIn} username={username} onLogout={handleLogout}>
+      <Layout>
         <Routes>
-          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} />} />
-          <Route path="/community" element={isLoggedIn ? <Community /> : <Navigate to="/login" />} />
-          <Route path="/fitness" element={isLoggedIn ? <Fitness /> : <Navigate to="/login" />} />
+          <Route path="/" element={user ? <Navigate to="/community" replace /> : <MainPage />} />
+          <Route path="/login" element={user ? <Navigate to="/community" replace /> : <Login />} />
+          <Route path="/community" element={user ? <Community /> : <Navigate to="/login" replace />} />
+          <Route path="/fitness" element={user ? <Fitness /> : <Navigate to="/login" replace />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
     </Router>
