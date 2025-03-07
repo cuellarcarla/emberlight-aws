@@ -24,7 +24,7 @@ function Login() {
     if (!response.ok) return setError(data.error);
 
     login({ username: data.username, email: data.email });
-    navigate("/community");
+    navigate("/fitness");
   };
 
   return (

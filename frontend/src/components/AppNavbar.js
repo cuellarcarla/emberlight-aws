@@ -22,7 +22,9 @@ const AppNavbar = () => {
   return (
     <nav className="navbar">
       <div className="nav-left">
-        <img src="/logo.png" alt="Logo" className="logo" />
+        <Link to="/fitness" className="logo-link">
+          <img src="/logo.png" alt="Logo" className="logo"></img>
+        </Link>
         <Link to="/fitness" className="nav-link">FITNESS</Link>
         <Link to="/community" className="nav-link">COMMUNITY</Link>
       </div>
@@ -33,7 +35,7 @@ const AppNavbar = () => {
         >
           <FaBell />
           <FaRegQuestionCircle />
-          <div className="user-icon" onClick={toggleDropdown}> {/* User icon that triggers dropdown */}
+          <div className="user-icon" onClick={toggleDropdown}>
             <FaUser />
           </div>
         </IconContext.Provider>

@@ -28,10 +28,10 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={user ? <Navigate to="/community" replace /> : <MainPage />} />
-          <Route path="/login" element={user ? <Navigate to="/community" replace /> : <Login />} />
-          <Route path="/community" element={user ? <Community /> : <Navigate to="/login" replace />} />
+          <Route path="/" element={user ? <Navigate to="/fitness" replace /> : <MainPage />} />
+          <Route path="/login" element={user ? <Navigate to="/fitness" replace /> : <Login />} />
           <Route path="/fitness" element={user ? <Fitness /> : <Navigate to="/login" replace />} />
+          <Route path="/community" element={user ? <Community /> : <Navigate to="/login" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
