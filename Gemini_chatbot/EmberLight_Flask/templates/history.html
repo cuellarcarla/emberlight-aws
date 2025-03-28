@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mood History</title>
+</head>
+<body>
+    <h1>Past Mood Entries</h1>
+    <table border="1">
+        <tr>
+            <th>Input</th>
+            <th>Detected Emotion</th>
+            <th>Timestamp</th>
+        </tr>
+        {% for mood in moods %}
+        <tr>
+            <td>{{ mood[0] }}</td>
+            <td>{{ mood[1] }}</td>
+            <td>{{ mood[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="/">Go Back</a>
+</body>
+</html>

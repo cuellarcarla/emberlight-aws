@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #chat-box {
+            width: 50%;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .user-message {
+            background-color: #d1e7dd;
+            padding: 5px;
+            margin: 5px 0;
+        }
+        .ai-response {
+            background-color: #f8d7da;
+            padding: 5px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h2>Chat with AI</h2>
+    <div id="chat-box"></div>
+    
+    <input type="text" id="user-input" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        const userId = 1;  // Replace with dynamic user ID when authentication is added
+
+        async function fetchChatHistory() {
+            const response = await fetch(`http://127.0.0.1:5000/get_chat_history/${userId}`);
+            const data = await response.json();
+            
+            const chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML = "";  // Clear chat box before appending messages
+
+            data.chat_history.forEach(([message, response]) => {
+                chatBox.innerHTML += `<div class="user-message"><strong>You:</strong> ${message}</div>`;
+                chatBox.innerHTML += `<div class="ai-response"><strong>AI:</strong> ${response}</div>`;
+            });
+        }
+
+        async function sendMessage() {
+            const userMessage = document.getElementById("user-input").value;
+            if (!userMessage.trim()) return;  // Prevent sending empty messages
+
+            const response = await fetch("http://127.0.0.1:5000/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_id: userId, message: userMessage })
+            });
+
+            const data = await response.json();
+            document.getElementById("chat-box").innerHTML += `<div class="user-message"><strong>You:</strong> ${userMessage}</div>`;
+            document.getElementById("chat-box").innerHTML += `<div class="ai-response"><strong>AI:</strong> ${data.response}</div>`;
+            document.getElementById("user-input").value = "";
+        }
+
+        // Load chat history when the page loads
+        window.onload = fetchChatHistory;
+    </script>
+</body>
+</html>
