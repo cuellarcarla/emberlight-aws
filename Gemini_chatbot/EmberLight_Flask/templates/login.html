@@ -1,66 +1,51 @@
-<h3>Register</h3>
-<input type="text" id="reg-username" placeholder="Username">
-<input type="email" id="reg-email" placeholder="Email">
-<input type="password" id="reg-pass" placeholder="Password">
-<button onclick="register()">Register</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <button onclick="register()">Register</button>
 
-<h3>Verify Email</h3>
-<input type="email" id="ver-email" placeholder="Email">
-<input type="text" id="ver-code" placeholder="Verification Code">
-<button onclick="verify()">Verify</button>
+    <p id="message"></p>
 
-<h3>Login</h3>
-<input type="email" id="log-email" placeholder="Email">
-<input type="password" id="log-pass" placeholder="Password">
-<button onclick="login()">Login</button>
+    <script>
+        async function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
 
-<script>
-async function register() {
-    const username = document.getElementById("reg-username").value;
-    const email = document.getElementById("reg-email").value;
-    const password = document.getElementById("reg-pass").value;
+            const response = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
 
-    const response = await fetch("http://127.0.0.1:5000/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password })
-    });
+            const data = await response.json();
+            if (response.ok) {
+                window.location.href = data.redirect;
+            } else {
+                document.getElementById("message").innerText = data.error;
+            }
+        }
 
-    const data = await response.json();
-    alert(data.message || data.error);
-}
+        async function register() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
 
-async function verify() {
-    const email = document.getElementById("ver-email").value;
-    const code = document.getElementById("ver-code").value;
+            const response = await fetch("/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
 
-    const response = await fetch("http://127.0.0.1:5000/confirm_email", {  // Fix endpoint
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code })
-    });
-
-    const data = await response.json();
-    alert(data.message || data.error);
-}
-
-async function login() {
-    const email = document.getElementById("log-email").value;
-    const password = document.getElementById("log-pass").value;
-
-    const response = await fetch("http://127.0.0.1:5000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-    });
-
-    const data = await response.json();
-    if (data.access_token) {  // Fix token name
-        localStorage.setItem("authToken", data.access_token);
-        alert("Login successful!");
-        window.location.href = "/chat_page";  // Redirect to chat
-    } else {
-        alert("Login failed: " + (data.error || "Unknown error"));
-    }
-}
-</script>
+            const data = await response.json();
+            document.getElementById("message").innerText = data.message || data.error;
+        }
+    </script>
+</body>
+</html>
