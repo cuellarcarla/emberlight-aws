@@ -1,32 +1,37 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  const [user, setUser] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+  const login = ({ username, email, accessToken }) => {
+    setUser({ username, email });
+    setAccessToken(accessToken);
+  };
+
+  const refreshAccessToken = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/refresh", {
+        method: "POST",
+        credentials: "include", // Sends HttpOnly cookies to refresh access token
+      });
+
+      const data = await response.json();
+      if (response.ok) setAccessToken(data.access_token);
+    } catch (err) {
+      console.error("Failed to refresh access token:", err);
     }
-  }, []);
-
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
+    setAccessToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, accessToken, login, logout, refreshAccessToken }}>
       {children}
     </AuthContext.Provider>
   );

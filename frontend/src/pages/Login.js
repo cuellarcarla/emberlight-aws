@@ -14,17 +14,28 @@ function Login() {
     e.preventDefault();
     setError("");
 
-    const response = await fetch("http://localhost:5000/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const response = await fetch("http://localhost:8000/auth/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+        credentials: "include", // Important: Enables HttpOnly cookies
+      });
 
-    const data = await response.json();
-    if (!response.ok) return setError(data.error);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
 
-    login({ username: data.username, email: data.email });
-    navigate("/fitness");
+      // Login using JWT tokens + user info
+      login({ 
+        username: data.username, 
+        email: data.email, 
+        accessToken: data.access_token 
+      });
+
+      navigate("/fitness");
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
