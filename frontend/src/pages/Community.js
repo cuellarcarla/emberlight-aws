@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "./Community.css";
 
-const socket = io("http://localhost:5000");
+//const socket = io("http://localhost:5000");
 
 function Community() {    
   const [posts, setPosts] = useState([]);
@@ -15,13 +15,13 @@ function Community() {
       .then(data => setPosts(data))
       .catch(err => console.error("Error fetching posts:", err));
 
-    socket.on("new_post", (newPost) => {
+    /*socket.on("new_post", (newPost) => {
       setPosts(prevPosts => [newPost, ...prevPosts]);
     });
 
     return () => {
       socket.off("new_post");
-    };
+    };*/
   }, []);
 
   const handleSubmit = async (e) => {

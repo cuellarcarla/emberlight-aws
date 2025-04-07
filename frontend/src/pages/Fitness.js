@@ -5,13 +5,13 @@ const Fitness = () => {
   return (
     <div style={{ display: "flex" }}>
       <Sidebar />
-      <div class="fitness-dashboard">
-        <div class="fitness-demo">
+      <div className="fitness-dashboard">
+        <div className="fitness-demo">
           <img src="/fitness-template.jpeg" alt="fitness-template" className="fitness-template"/>
         </div>
-        <div class="fitness-timer">
-          <p class="fitness-title">FLEXIONES</p>
-          <p class="fitness-timer-count">00:30</p>
+        <div className="fitness-timer">
+          <p className="fitness-title">FLEXIONES</p>
+          <p className="fitness-timer-count">00:30</p>
         </div>
       </div>
     </div>

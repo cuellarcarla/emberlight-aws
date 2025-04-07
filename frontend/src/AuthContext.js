@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
@@ -6,9 +6,23 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const storedAccessToken = localStorage.getItem("accessToken");
+
+    if (storedUser && storedAccessToken) {
+      setUser(JSON.parse(storedUser));
+      setAccessToken(storedAccessToken);
+    }
+  }, []);
+
   const login = ({ username, email, accessToken }) => {
-    setUser({ username, email });
+    const userData = { username, email };
+    setUser(userData);
     setAccessToken(accessToken);
+
+    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("accessToken", accessToken);
   };
 
   const refreshAccessToken = async () => {
@@ -19,7 +33,10 @@ export const AuthProvider = ({ children }) => {
       });
 
       const data = await response.json();
-      if (response.ok) setAccessToken(data.access_token);
+      if (response.ok) {
+        setAccessToken(data.access_token);
+        localStorage.setItem("accessToken", data.access_token);
+      }
     } catch (err) {
       console.error("Failed to refresh access token:", err);
     }
@@ -28,6 +45,8 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setAccessToken(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
   };
 
   return (
