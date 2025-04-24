@@ -1,84 +1,38 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-
-      // Move token refresh logic inside useEffect
-      const fetchAccessToken = async () => {
-        try {
-          const response = await fetch("http://localhost:8000/auth/refresh/", {
-            method: "POST",
-            credentials: "include", // Required for HttpOnly cookies
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({}), // Empty body, server reads from cookie
-          });
-      
-          const data = await response.json();
-          if (response.ok) {
-            setAccessToken(data.access_token);
-          } else {
-            console.error("Refresh failed:", data);
-            logout();
-          }
-        } catch (err) {
-          console.error("Failed to refresh access token:", err);
-        }
-      };      
-
-      fetchAccessToken();
-    }
-  }, []);
-
-  const login = async ({ username, email }) => {
-    const userData = { username, email };
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
-
-    // Refresh token after login
+  const login = async ({ username, password }) => {
     try {
-      const response = await fetch("http://localhost:8000/auth/refresh/", {
+      const response = await fetch("http://localhost:8000/auth/login/", {
         method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({}),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+        credentials: "include", // Important for session cookies
       });
+
       const data = await response.json();
-      if (response.ok) {
-        setAccessToken(data.access_token);
-      } else {
-        console.error("Refresh failed after login:", data);
-      }
+      if (!response.ok) throw new Error(data.error || "Login failed");
+
+      setUser({ username: data.username, email: data.email });
     } catch (err) {
-      console.error("Token refresh failed after login:", err);
+      throw err;
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    setAccessToken(null);
-    localStorage.removeItem("user");
-
-    // Optionally clear the refresh cookie
-    fetch("http://localhost:8000/auth/logout/", {
+  const logout = async () => {
+    await fetch("http://localhost:8000/auth/logout/", {
       method: "POST",
       credentials: "include",
-    }).catch((err) => console.error("Logout failed:", err));
+    });
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
