@@ -8,37 +8,60 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    const storedAccessToken = localStorage.getItem("accessToken");
-
-    if (storedUser && storedAccessToken) {
+    if (storedUser) {
       setUser(JSON.parse(storedUser));
-      setAccessToken(storedAccessToken);
+
+      // Move token refresh logic inside useEffect
+      const fetchAccessToken = async () => {
+        try {
+          const response = await fetch("http://localhost:8000/auth/refresh/", {
+            method: "POST",
+            credentials: "include", // Required for HttpOnly cookies
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({}), // Empty body, server reads from cookie
+          });
+      
+          const data = await response.json();
+          if (response.ok) {
+            setAccessToken(data.access_token);
+          } else {
+            console.error("Refresh failed:", data);
+            logout();
+          }
+        } catch (err) {
+          console.error("Failed to refresh access token:", err);
+        }
+      };      
+
+      fetchAccessToken();
     }
   }, []);
 
-  const login = ({ username, email, accessToken }) => {
+  const login = async ({ username, email }) => {
     const userData = { username, email };
     setUser(userData);
-    setAccessToken(accessToken);
-
     localStorage.setItem("user", JSON.stringify(userData));
-    localStorage.setItem("accessToken", accessToken);
-  };
 
-  const refreshAccessToken = async () => {
+    // Refresh token after login
     try {
-      const response = await fetch("http://localhost:5000/api/refresh", {
+      const response = await fetch("http://localhost:8000/auth/refresh/", {
         method: "POST",
-        credentials: "include", // Sends HttpOnly cookies to refresh access token
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
       });
-
       const data = await response.json();
       if (response.ok) {
         setAccessToken(data.access_token);
-        localStorage.setItem("accessToken", data.access_token);
+      } else {
+        console.error("Refresh failed after login:", data);
       }
     } catch (err) {
-      console.error("Failed to refresh access token:", err);
+      console.error("Token refresh failed after login:", err);
     }
   };
 
@@ -46,11 +69,16 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setAccessToken(null);
     localStorage.removeItem("user");
-    localStorage.removeItem("accessToken");
+
+    // Optionally clear the refresh cookie
+    fetch("http://localhost:8000/auth/logout/", {
+      method: "POST",
+      credentials: "include",
+    }).catch((err) => console.error("Logout failed:", err));
   };
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, login, logout, refreshAccessToken }}>
+    <AuthContext.Provider value={{ user, accessToken, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
