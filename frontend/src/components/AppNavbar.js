@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaBell, FaRegQuestionCircle, FaUser } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import "./AppNavbar.css";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
 
 const AppNavbar = () => {

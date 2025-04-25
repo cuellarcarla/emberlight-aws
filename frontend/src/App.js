@@ -6,7 +6,9 @@ import Community from "./pages/Community";
 import Fitness from "./pages/Fitness";
 import NotFound from "./pages/NotFound";
 import MainPage from "./pages/MainPage";
-import { useAuth } from "./AuthContext";
+import Chat from "./pages/Chat";
+import { useAuth } from "./contexts/AuthContext";
+import { useEffect } from "react";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -15,7 +17,7 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      {showMainNavbar ? <MainNavbar /> : <AppNavbar username={user} onLogout={logout} />}
+      {showMainNavbar ? <MainNavbar /> : <AppNavbar username={user?.username} onLogout={logout} />}
       {children}
     </>
   );
@@ -32,6 +34,7 @@ function App() {
           <Route path="/login" element={user ? <Navigate to="/fitness" replace /> : <Login />} />
           <Route path="/fitness" element={user ? <Fitness /> : <Navigate to="/login" replace />} />
           <Route path="/community" element={user ? <Community /> : <Navigate to="/login" replace />} />
+          <Route path="/chat" element={user ? <Chat /> : <Navigate to="/login" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

@@ -1,9 +1,22 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  // Initialize user from localStorage if available
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
+  // Persist user to localStorage whenever it changes
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('user');
+    }
+  }, [user]);
 
   const login = async ({ username, password }) => {
     try {
@@ -11,13 +24,19 @@ export const AuthProvider = ({ children }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
-        credentials: "include", // Important for session cookies
+        credentials: "include",
       });
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Login failed");
 
-      setUser({ username: data.username, email: data.email });
+      // Set user with all received data
+      setUser({
+        username: data.username,
+        email: data.email
+      });
+      
+      return true; // Success
     } catch (err) {
       throw err;
     }

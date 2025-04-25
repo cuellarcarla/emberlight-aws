@@ -1,8 +1,15 @@
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate, login, logout
 from .serializers import RegisterSerializer, LoginSerializer
+
+@api_view(["GET"])
+def check_session(request):
+    if request.user.is_authenticated:
+        return Response({"username": request.user.username})
+    return Response({"error": "Not authenticated"}, status=401)
 
 class RegisterView(APIView):
     def post(self, request):

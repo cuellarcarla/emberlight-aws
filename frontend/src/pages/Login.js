@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -15,24 +14,8 @@ function Login() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8000/auth/login/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-        credentials: "include", // Important: Enables HttpOnly cookies
-      });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
-
-      // Login using JWT tokens + user info
-      login({ 
-        username: data.username, 
-        email: data.email, 
-        accessToken: data.access_token 
-      });
-
-      navigate("/fitness");
+      await login({ username, password });
+      navigate("/chat");
     } catch (err) {
       setError(err.message);
     }
