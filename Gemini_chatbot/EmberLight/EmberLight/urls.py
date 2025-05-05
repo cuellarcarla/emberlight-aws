@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('login.urls')),
     path('geminiapi/', include('chat.urls')),
+    path('journal/', include('journal.urls')),
 ]
