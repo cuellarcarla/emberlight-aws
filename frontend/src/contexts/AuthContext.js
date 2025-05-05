@@ -1,28 +1,42 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { getCookie } from "../utils/cookies";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  // Initialize user from localStorage if available
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem('user');
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  const [user, setUser] = useState(null);
 
-  // Persist user to localStorage whenever it changes
+  // On mount, restore session from backend
   useEffect(() => {
-    if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('user');
-    }
-  }, [user]);
+    const fetchUser = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/auth/me/", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (!res.ok) throw new Error("Not authenticated");
+
+        const data = await res.json();
+        setUser({
+          username: data.username,
+          email: data.email,
+        });
+      } catch (err) {
+        setUser(null);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const login = async ({ username, password }) => {
     try {
       const response = await fetch("http://localhost:8000/auth/login/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"), 
+        },
         body: JSON.stringify({ username, password }),
         credentials: "include",
       });
@@ -30,13 +44,17 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Login failed");
 
-      // Set user with all received data
-      setUser({
-        username: data.username,
-        email: data.email
+      const meRes = await fetch("http://localhost:8000/auth/me/", {
+        credentials: "include",
       });
-      
-      return true; // Success
+      const meData = await meRes.json();
+
+      setUser({
+        username: meData.username,
+        email: meData.email,
+      });
+
+      return true;
     } catch (err) {
       throw err;
     }
@@ -46,6 +64,10 @@ export const AuthProvider = ({ children }) => {
     await fetch("http://localhost:8000/auth/logout/", {
       method: "POST",
       credentials: "include",
+      headers: { 
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"), 
+      },
     });
     setUser(null);
   };
