@@ -1,0 +1,255 @@
+.journal-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.view-toggle {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+.view-toggle button {
+  padding: 8px 16px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.view-toggle button.active {
+  background: #1890ff;
+  color: white;
+}
+
+/* Sticky Notes View */
+.sticky-notes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.sticky-note {
+  min-height: 300px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  background: #fff9c4; /* Default sticky note color */
+  position: relative;
+}
+
+.sticky-note.empty {
+  opacity: 0.7;
+  background: #f5f5f5;
+}
+
+.sticky-note.happy { background: #fff9c4; } /* Yellow */
+.sticky-note.neutral { background: #e3f2fd; } /* Blue */
+.sticky-note.sad { background: #fce4ec; } /* Pink */
+.sticky-note.angry { background: #ffebee; } /* Red */
+.sticky-note.anxious { background: #e8f5e9; } /* Green */
+
+.sticky-header {
+  font-weight: bold;
+  font-size: 18px;
+  border-bottom: 1px dashed #ccc;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sticky-date {
+  font-size: 24px;
+  color: #555;
+}
+
+.sticky-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sticky-content p {
+  flex: 1;
+  margin: 10px 0;
+  white-space: pre-wrap;
+}
+
+.sticky-edit textarea {
+  width: 100%;
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: none;
+  margin-bottom: 10px;
+  min-height: 150px;
+}
+
+.mood-selector {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+  font-size: 24px;
+}
+
+.mood-selector span {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.mood-selector span.selected {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.edit-button {
+  align-self: flex-end;
+  background: #1890ff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+/* Calendar View */
+.calendar-view {
+  margin-top: 20px;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #f5f5f5;
+}
+
+.calendar-day.happy { background: #fff9c4; }
+.calendar-day.neutral { background: #e3f2fd; }
+.calendar-day.sad { background: #fce4ec; }
+.calendar-day.angry { background: #ffebee; }
+.calendar-day.anxious { background: #e8f5e9; }
+
+.sticky-edit {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.save-button {
+  margin-top: 10px;
+  padding: 8px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background: #45a049;
+}
+
+.mood-selector {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+  font-size: 24px;
+}
+
+.mood-selector span {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.2s;
+}
+
+.mood-selector span.selected {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.sticky-content p {
+  flex: 1;
+  margin: 10px 0;
+  white-space: pre-wrap;
+  min-height: 150px;
+  background: rgba(255,255,255,0.7);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+/*--------------------Calendar view style -------------------*/
+.journal-calendar {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Mood colors for calendar days */
+.calendar-day-happy { background: #fff9c4; }
+.calendar-day-neutral { background: #e3f2fd; }
+.calendar-day-sad { background: #fce4ec; }
+.calendar-day-angry { background: #ffebee; }
+.calendar-day-anxious { background: #e8f5e9; }
+
+/* Entry popup styles */
+.entry-popup {
+  margin-top: 20px;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.entry-popup h4 {
+  margin-top: 0;
+  color: #333;
+}
+
+.entry-mood {
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.entry-text {
+  white-space: pre-wrap;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+/* Highlight today's date */
+.react-calendar__tile--now {
+  background: #f0f8ff !important;
+}
