@@ -79,8 +79,25 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const register = async ({ username, email, password }) => {
+    const response = await fetch("http://localhost:8000/auth/register/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      credentials: "include",
+      body: JSON.stringify({ username, email, password }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData?.username?.[0] || "Registration failed");
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, register, loading }}>
       {children}
     </AuthContext.Provider>
   );

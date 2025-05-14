@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation, Navigate  } from "
 import MainNavbar from "./components/MainNavbar";
 import AppNavbar from "./components/AppNavbar";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import MainPage from "./pages/MainPage";
 import JournalPage from "./pages/JournalPage";
@@ -34,6 +35,7 @@ function App() {
           {/* No login accessible pages */}
           <Route path="/" element={user ? <Navigate to="/journal" replace /> : <MainPage />} />
           <Route path="/login" element={user ? <Navigate to="/journal" replace /> : <Login />} />
+          <Route path="/register" element={user ? <Navigate to="/journal" replace /> : <Register />} />
 
           {/* Login-only accessible pages */}
           <Route 

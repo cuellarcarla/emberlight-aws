@@ -150,12 +150,6 @@
   background: #f5f5f5;
 }
 
-.calendar-day.happy { background: #fff9c4; }
-.calendar-day.neutral { background: #e3f2fd; }
-.calendar-day.sad { background: #fce4ec; }
-.calendar-day.angry { background: #ffebee; }
-.calendar-day.anxious { background: #e8f5e9; }
-
 .sticky-edit {
   display: flex;
   flex-direction: column;

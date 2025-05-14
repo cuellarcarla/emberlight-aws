@@ -1,12 +1,12 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
+from .models import User
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
+        extra_kwargs = {'password': {'write_only': True}, 'email': {'required': True, 'allow_blank': False},}
 
     def create(self, validated_data):
         if User.objects.filter(username=validated_data['username']).exists():
