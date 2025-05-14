@@ -22,7 +22,7 @@ function CalendarView({ entries, selectedDate, setSelectedDate }) {
       />
       {selectedEntry && (
         <div className="entry-popup">
-          <h4>{selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</h4>
+          <h4>{selectedDate.toLocaleDateString('es-ES', { weekday: 'long', month: 'long', day: 'numeric' })}</h4>
           <div className="entry-mood">Mood: {selectedEntry.mood}</div>
           <div className="entry-text">{selectedEntry.text}</div>
         </div>

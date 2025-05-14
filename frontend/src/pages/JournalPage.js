@@ -14,16 +14,21 @@ function JournalPage() {
   const [editingDate, setEditingDate] = useState(null);
   const [currentMood, setCurrentMood] = useState('neutral');
 
+  // Get the days of the week (Mon to Sun) where the current day(the day the user is viewing the website) belongs
   const getWeekDates = () => {
     const monday = startOfWeek(new Date(), { weekStartsOn: 1 }); // Return the start of a week for the given date, week starts on Monday
     return Array.from({ length: 7 }, (_, dayIndex) => addDays(monday, dayIndex));
   };
 
+  // Format the dates for easy reading
   const toLocalDateString = date => format(date, 'yyyy-MM-dd');
 
   useEffect(() => {
     if (!user) return;
 
+    // Retrieve the journal entries of the current user.
+    // Note: Entries are retrieved only for the last 30 days and for the logged user.
+    // This functionality is handled by the Django endpoint + sessions.
     const fetchEntries = async () => {
       try {
         const response = await fetch(`http://localhost:8000/journal/entries/`, {
@@ -34,7 +39,7 @@ function JournalPage() {
           },
         });
         const data = await response.json();
-        setEntries(data);
+        setEntries(data); // Store fetched entries to "entries" useState([]) array
       } catch (error) {
         console.error('Error fetching entries:', error);
       }
@@ -44,11 +49,16 @@ function JournalPage() {
   }, [user]);
 
   const handleSave = async (date) => {
-    const dateStr = toLocalDateString(date);
-    const textarea = document.querySelector(`textarea[data-date="${dateStr}"]`);
-    const text = textarea?.value || '';
-    const existingEntry = entries.find(e => e.date === dateStr);
+    const dateStr = toLocalDateString(date); // Get the date of the entry we're trying to store
+    const textarea = document.querySelector(`textarea[data-date="${dateStr}"]`); // Get the text from textarea
+    const text = textarea?.value || ''; // To prevent null in text area after saving
+    const existingEntry = entries.find(e => e.date === dateStr); // Check if the date of that entry has already one entry stored in the DB
 
+    // When pressing "Save" to store the entry to the DB, we check the fetched
+    // entries to see if we stored the entry, of that specific date, previously to the DB.
+    // Basically:
+    // If the entry exists in the DB -> Edit the entry with PUT
+    // If the entry doesn't exist in the DB -> Create a new entry with POST
     const url = existingEntry
       ? `http://localhost:8000/journal/entries/${existingEntry.id}/`
       : 'http://localhost:8000/journal/entries/';
@@ -62,6 +72,7 @@ function JournalPage() {
           'X-CSRFToken': getCookie('csrftoken'),
         },
         credentials: 'include',
+        // Store date of the journal entry, the mood and text
         body: JSON.stringify({ date: dateStr, mood: currentMood, text }),
       });
 
@@ -70,14 +81,16 @@ function JournalPage() {
       }
 
       const savedEntry = await response.json();
-
+      
+      // Again, if the entry already existed in the DB, we check our
+      // entries array and update it (if the entry existed) or append it if the entry is new
       setEntries(prev =>
         existingEntry
           ? prev.map(e => (e.id === savedEntry.id ? savedEntry : e))
           : [savedEntry, ...prev]
       );
 
-      setEditingDate(null);
+      setEditingDate(null); // Finish editing the entry text
     } catch (error) {
       console.error('Error saving entry:', error);
     }
@@ -90,7 +103,7 @@ function JournalPage() {
 
   return (
     <div className="journal-container">
-      <h1 style={{ color: "#2F5D46" }}>Pensamientos Semanales</h1>
+      <h1 style={{ color: "#2F5D46" }}>Tu Diario Mental</h1>
 
       <div className="view-toggle">
         <button 

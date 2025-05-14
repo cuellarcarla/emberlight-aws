@@ -25,7 +25,7 @@ const AppNavbar = () => {
         <Link to="/journal" className="logo-link">
           <img src="/logo.png" alt="Logo" className="logo"></img>
         </Link>
-        <Link to="/journal" className="nav-link">JOURNAL</Link>
+        <Link to="/journal" className="nav-link">DIARIO</Link>
         <Link to="/chat" className="nav-link">CHAT</Link>
       </div>
       <div className="nav-right">
