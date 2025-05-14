@@ -22,11 +22,11 @@ const AppNavbar = () => {
   return (
     <nav className="navbar">
       <div className="nav-left">
-        <Link to="/fitness" className="logo-link">
+        <Link to="/journal" className="logo-link">
           <img src="/logo.png" alt="Logo" className="logo"></img>
         </Link>
-        <Link to="/fitness" className="nav-link">FITNESS</Link>
-        <Link to="/community" className="nav-link">COMMUNITY</Link>
+        <Link to="/journal" className="nav-link">JOURNAL</Link>
+        <Link to="/chat" className="nav-link">CHAT</Link>
       </div>
       <div className="nav-right">
       {user && <span className="user">Bienvenido, {user.username}!</span>}

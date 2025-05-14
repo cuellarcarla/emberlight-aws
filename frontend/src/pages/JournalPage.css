@@ -45,8 +45,8 @@
 }
 
 .sticky-note.empty {
-  opacity: 0.7;
-  background: #f5f5f5;
+  opacity: 1;
+  background: #D7EADF;
 }
 
 .sticky-note.happy { background: #fff9c4; } /* Yellow */
@@ -112,7 +112,7 @@
 
 .edit-button {
   align-self: flex-end;
-  background: #1890ff;
+  background: #53B574;
   color: white;
   border: none;
   padding: 6px 12px;

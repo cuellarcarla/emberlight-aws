@@ -23,7 +23,8 @@ function ChatPage() {
         const res = await fetch("http://localhost:8000/geminiapi/sessions/", {
           credentials: "include",
           headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
+            "Content-Type": "application/json",
+            //"X-CSRFToken": getCookie("csrftoken"),
           },
         });
         const data = await res.json();
@@ -50,7 +51,8 @@ function ChatPage() {
         const res = await fetch(`http://localhost:8000/geminiapi/sessions/${activeSession}/`, {
           credentials: "include",
           headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
+            "Content-Type": "application/json",
+            //"X-CSRFToken": getCookie("csrftoken"),
           },
         });
         const data = await res.json();
@@ -79,7 +81,7 @@ function ChatPage() {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken"),
+            //"X-CSRFToken": getCookie("csrftoken"),
           },
           body: JSON.stringify({ title: message.substring(0, 30) }),
         });
@@ -94,7 +96,7 @@ function ChatPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": getCookie("csrftoken"),
+          //"X-CSRFToken": getCookie("csrftoken"),
         },
         credentials: "include",
         body: JSON.stringify({ message }),

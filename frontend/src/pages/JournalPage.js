@@ -32,13 +32,16 @@ function JournalPage() {
 
   // Fetch entries
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      return null;
+    }
     
     const fetchEntries = async () => {
       try {
         const response = await fetch(`http://localhost:8000/journal/entries/`, {
             credentials: 'include',
             headers: {
+                "Content-Type": "application/json",
                 'X-CSRFToken': getCookie('csrftoken'),
             },
             });
@@ -61,6 +64,7 @@ function JournalPage() {
     try {
       let url, method;
       
+      // If entry (journal) exists we edit it (PUT), if not we POST the new entry
       if (existingEntry) {
         url = `http://localhost:8000/journal/entries/${existingEntry.id}/`;
         method = 'PUT';
@@ -76,6 +80,7 @@ function JournalPage() {
           'X-CSRFToken': getCookie('csrftoken'),
         },
         credentials: 'include',
+        // We include the date of the entry, the mood and user input text in the body
         body: JSON.stringify({
           date: dateStr,
           mood: currentMood,
@@ -120,20 +125,20 @@ function JournalPage() {
 
   return (
     <div className="journal-container">
-      <h2>My Journal</h2>
+      <h1 style={{ color: "#2F5D46" }}>Pensamientos Semanales</h1>
       
       <div className="view-toggle">
         <button 
           className={viewMode === 'week' ? 'active' : ''}
           onClick={() => setViewMode('week')}
         >
-          Week View
+          Semanal
         </button>
         <button 
           className={viewMode === 'calendar' ? 'active' : ''}
           onClick={() => setViewMode('calendar')}
         >
-          Calendar
+          Calendario
         </button>
       </div>
       
@@ -149,9 +154,9 @@ function JournalPage() {
                 key={dateStr} 
                 className={`sticky-note ${entry ? entry.mood : 'empty'}`}
               >
-                <div className="sticky-header">
+                <div className="sticky-header" style={{ color: "#5F7F71" }}>
                   {date.toLocaleDateString('en-US', { weekday: 'long' })}
-                  <div className="sticky-date">{date.getDate()}</div>
+                  <div className="sticky-date" style={{ color: "#5F7F71" }}>{date.getDate()}</div>
                 </div>
                 
                 {isEditing ? (
