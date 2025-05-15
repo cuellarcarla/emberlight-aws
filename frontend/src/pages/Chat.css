@@ -9,6 +9,7 @@
   text-align: center;
   margin: auto;
   color: #666;
+  padding: 20px;
 }
 
 .empty-state h3 {
@@ -22,12 +23,13 @@
 }
 
 .chat-messages {
-  flex: 1;
+  flex: 1 1 auto;
   padding: 20px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-height: 0;
 }
 
 .message {
@@ -58,6 +60,10 @@
   border-top: 1px solid #e5e5e6;
   gap: 10px;
   align-items: center;
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 
 .chat-input {

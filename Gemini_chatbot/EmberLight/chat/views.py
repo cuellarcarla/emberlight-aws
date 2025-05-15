@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import ChatSession, ChatLog
 from .serializers import ChatLogSerializer, ChatSessionSerializer
 from journal.models import JournalEntry
-from .utils import generate_ai_response
+from .utils import get_chat_model
 from datetime import datetime, timedelta
 
 # Retrieve all sessions
@@ -48,21 +48,50 @@ def chat(request, session_id):
     if not message:
         return Response({"error": "Message is required"}, status=400)
 
-    # Get relevant journal entries (last 7 days)
+    # Retrieve previous 10 messages for context
+    previous_logs = ChatLog.objects.filter(
+        session=session
+    ).order_by("timestamp")[:10]
+
+    # Use an array to store those 10 messages
+    chat_history = []
+    for log in previous_logs:
+        chat_history.append({"role": "user", "parts": log.message})
+        chat_history.append({"role": "model", "parts": log.response})
+
+    # Retrieve the user's journal entries of this current week
     date_from = datetime.now() - timedelta(days=7)
     journal_entries = JournalEntry.objects.filter(
         user=request.user,
         date__gte=date_from
     ).order_by("-date")
 
-    # Create context prompt
-    context_prompt = "User's recent journal entries:\n"
-    for entry in journal_entries:
-        context_prompt += f"{entry.date}: {entry.mood} - {entry.text}\n"
+    # Create journal context message
+    journal_context = "Journal Entries Context:\n" + "\n".join(
+        f"{entry.date}: {entry.mood} - {entry.text}"
+        for entry in journal_entries
+    )
+
+    # We initialize chat with system message + journal context
+    model = get_chat_model()
+    chat = model.start_chat(history=[
+        {
+            "role": "user",
+            "parts": journal_context  # Journal context for first message
+        },
+        {
+            "role": "model", 
+            "parts": "I've reviewed the journal entries. How can I help?"
+        },
+        *chat_history  # Add conversation history
+    ])
     
-    full_prompt = f"{context_prompt}\nUser message: {message}"
-    
-    ai_response = generate_ai_response(full_prompt)
+    # Generate response from Gemini AI
+    try:
+        response = chat.send_message(message)
+        ai_response = response.text
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
     
     # Create chat log with context
     chat_log = ChatLog.objects.create(
