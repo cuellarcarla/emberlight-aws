@@ -12,6 +12,7 @@ class MeView(APIView):
         return Response({
             "username": request.user.username,
             "email": request.user.email,
+            "user_id": request.user.id,
             "is_authenticated": True
         })
 
@@ -30,16 +31,21 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
-    authentication_classes = []  # Disable authentication for login endpoint
     
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.validated_data["user"]
             login(request, user)
-            return Response({
+            response = Response({
+                "id": user.id,
                 "username": user.username,
             })
+            
+            # Setting the cookie attributes in session
+            request.session['user_id'] = user.id
+            request.session.save()
+            return response
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LogoutView(APIView):

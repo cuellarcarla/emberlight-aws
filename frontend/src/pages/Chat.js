@@ -6,8 +6,8 @@ function Chat({ history, loading, onSubmit, message, setMessage }) {
     <div className="chat-container">
       {history.length === 0 && !loading ? (
         <div className="empty-state">
-          <h3>How are you feeling today?</h3>
-          <p>Ask Gemini AI Chat anything</p>
+          <h3>¿Cómo te sientes hoy?</h3>
+          <p>Pregúntale a Emberlight AI lo que necesites</p>
         </div>
       ) : (
         <div className="chat-messages">
@@ -28,7 +28,7 @@ function Chat({ history, loading, onSubmit, message, setMessage }) {
         <input
           type="text"
           className="chat-input"
-          placeholder="Type a message..."
+          placeholder="Escribe tu mensaje a Emberlight..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           disabled={loading}

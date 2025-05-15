@@ -23,6 +23,7 @@ function ChatPage() {
         const res = await fetch("http://localhost:8000/geminiapi/sessions/", {
           credentials: "include",
           headers: {
+            "Content-Type": "application/json",
             "X-CSRFToken": getCookie("csrftoken"),
           },
         });
@@ -50,6 +51,7 @@ function ChatPage() {
         const res = await fetch(`http://localhost:8000/geminiapi/sessions/${activeSession}/`, {
           credentials: "include",
           headers: {
+            "Content-Type": "application/json",
             "X-CSRFToken": getCookie("csrftoken"),
           },
         });

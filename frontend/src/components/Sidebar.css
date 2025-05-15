@@ -8,11 +8,13 @@
 }
 
 .new-chat-button {
-  margin: 10px;
-  padding: 10px;
+  margin: 5px;
+  padding: 12px 0px 12px 15px;
+  font-size: 1rem;
   border: 1px solid #d0d0d0;
   border-radius: 5px;
-  background: white;
+  background: #F0F8F5;
+  color: black;
   cursor: pointer;
   text-align: left;
 }

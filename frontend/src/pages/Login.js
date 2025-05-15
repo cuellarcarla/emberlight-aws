@@ -16,7 +16,7 @@ function Login() {
 
     try {
       await login({ username, password });
-      navigate("/chat");
+      navigate("/journal");
     } catch (err) {
       setError(err.message);
     }

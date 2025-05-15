@@ -69,21 +69,23 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True # To prevent errors like "blocked by CORS policy"
+CORS_ALLOWED_ORIGINS = [
+    #"https://yourdomain.com",  # For React EC2 or Amplify deployment. Not in use yet.
+    "http://localhost:3000"    # For development
+]
+CORS_EXPOSE_HEADERS = ['X-CSRFToken']
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
-CSRF_COOKIE_SAMESITE = 'Lax'
-CSRF_COOKIE_HTTPONLY = False
+# Security, for production
+SESSION_COOKIE_SECURE = False    # HTTPS only
+CSRF_COOKIE_SECURE = False       # HTTPS only
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 
-SESSION_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SECURE = True
-
+# Session authentication
+SESSION_COOKIE_SAMESITE = 'Lax'  # To prevent CSRF attacks
+SESSION_COOKIE_HTTPONLY = True   # To prevent XSS
 
 ROOT_URLCONF = 'EmberLight.urls'
 
