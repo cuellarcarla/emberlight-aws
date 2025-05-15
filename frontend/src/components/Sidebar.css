@@ -1,17 +1,25 @@
 .sidebar {
   width: 100%;
-  height: 100vh;
-  background: linear-gradient(180deg,rgba(116, 219, 159, 1) 50%, rgba(240, 229, 134, 1) 95%);
-  border-right: 1px solid #e0e0e0;
+  height: 100%;
+  background: linear-gradient(180deg,rgb(135, 231, 175) 50%, rgb(193, 244, 139) 95%);
+  background-attachment: local;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .new-chat-button-container {
-  align-items: center;
+  padding: 0.5rem;
+  flex-shrink: 0;
+  background: inherit;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .new-chat-button {
+  width: 80%;
+  padding: 0.75rem;
   margin: 1rem;
   font-size: 1rem;
   border: 1px solid #d0d0d0;
@@ -30,6 +38,7 @@
 .sessions-list {
   flex: 1;
   overflow-y: auto;
+  padding-bottom: 1rem;
   scrollbar-width: none; /* Firefox */
 }
 

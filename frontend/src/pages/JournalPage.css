@@ -15,6 +15,10 @@
   --default-day-hover: #c2dfcf;
 }
 
+body {
+  background-color: #ebfbf3;
+}
+
 .journal-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -32,14 +36,14 @@
 .view-toggle button {
   padding: 8px 16px;
   border: none;
-  background: #4CAF50;
+  background: #81d271;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.45rem;
   cursor: pointer;
 }
 
 .view-toggle button.active {
-  background: #45a049;
+  background: #71bb62;
   color: white;
 }
 
@@ -237,6 +241,10 @@
 /*--------------------Calendar Component view style -------------------*/
 .react-calendar__navigation {
   display: flex;
+}
+
+.react-calendar__navigation button{
+  background-color: #53B574;
 }
 
 .react-calendar__navigation__label {

@@ -2,6 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './Chat.css';
 
 function Chat({ history, loading, onSubmit, message, setMessage }) {
+
+  const formatMessage = (text) => {
+    return text.split('**').map((part, index) => {
+      return index % 2 === 0 ? part : <strong key={index}>{part}</strong>;
+    });
+  };
+
   return (
     <div className="chat-container">
       {history.length === 0 && !loading ? (
@@ -17,7 +24,7 @@ function Chat({ history, loading, onSubmit, message, setMessage }) {
                 <div className="message-content">{log.message}</div>
               </div>
               <div className="message ai-message">
-                <div className="message-content">{log.response}</div>
+                <div className="message-content">{formatMessage(log.response)}</div>
               </div>
             </React.Fragment>
           ))}
