@@ -3,6 +3,8 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  background: #B4ECCB;
+  background: linear-gradient(180deg,rgba(180, 236, 203, 1) 42%, rgba(210, 250, 227, 1) 87%);
 }
 
 .empty-state {
@@ -41,23 +43,21 @@
 
 .user-message {
   align-self: flex-end;
-  background-color: #ffffff;
-  border: 1px solid #e5e5e6;
+  color: white;
+  background-color: #74DB9F;
   border-bottom-right-radius: 0;
 }
 
 .ai-message {
   align-self: flex-start;
-  background-color: #f0f0f0;
-  border: 1px solid #e0e0e0;
+  background-color: white;
   border-bottom-left-radius: 0;
 }
 
 .chat-input-area {
   display: flex;
   padding: 15px;
-  background-color: #ffffff;
-  border-top: 1px solid #e5e5e6;
+  background-color: transparent;
   gap: 10px;
   align-items: center;
   flex-shrink: 0;
@@ -69,20 +69,20 @@
 .chat-input {
   flex: 1;
   min-width: 0;
-  padding: 12px 15px;
-  border: 1px solid #e5e5e6;
-  border-radius: 20px;
+  padding: 20px 15px;
+  border-color: white;
+  border-radius: 0.75rem;
   font-size: 0.95rem;
   outline: none;
 }
 
 .chat-input:focus {
-  border-color: #a0a0a0;
+  outline: none;
 }
 
 .send-button {
   padding: 0 12px !important;
-  background-color: #10a37f !important;
+  background-color: #74DB9F !important;
   color: white !important;
   border: none !important;
   border-radius: 20px !important;

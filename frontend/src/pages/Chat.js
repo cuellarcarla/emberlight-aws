@@ -38,7 +38,7 @@ function Chat({ history, loading, onSubmit, message, setMessage }) {
           className="send-button"
           disabled={loading || !message.trim()}
         >
-          {loading ? "..." : "Send"}
+          {loading ? "..." : "Enviar"}
         </button>
       </form>
     </div>
