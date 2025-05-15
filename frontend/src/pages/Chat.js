@@ -28,7 +28,7 @@ function Chat({ history, loading, onSubmit, message, setMessage }) {
         <input
           type="text"
           className="chat-input"
-          placeholder="Type a message..."
+          placeholder="Escribe tu mensaje a Emberlight..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           disabled={loading}
