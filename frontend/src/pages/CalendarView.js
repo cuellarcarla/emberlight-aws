@@ -14,12 +14,14 @@ function CalendarView({ entries, selectedDate, setSelectedDate }) {
 
   return (
     <div className="calendar-view">
+      {/* We map the Calendar component from the React library */}
       <Calendar
         onChange={setSelectedDate}
         value={selectedDate}
-        tileClassName={tileClassName}
+        tileClassName={tileClassName} /* Mood checking for tile coloring */
         className="journal-calendar"
       />
+      {/* We display the info of the entry on click (if it exists) */}
       {selectedEntry && (
         <div className="entry-popup">
           <h4>{selectedDate.toLocaleDateString('es-ES', { weekday: 'long', month: 'long', day: 'numeric' })}</h4>

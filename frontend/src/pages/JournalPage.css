@@ -1,3 +1,20 @@
+:root {
+  /* Mood color variables */
+  --happy-color: #fff9c4;
+  --neutral-color: #e0e0e0;
+  --sad-color: #bbdefb;
+  --angry-color: #ffccbc;
+  --anxious-color: #e8f5e9;
+  --happy-hover: #fff176;
+  --neutral-hover: #bdbdbd;
+  --sad-hover: #90caf9;
+  --angry-hover: #ffab91;
+  --anxious-hover: #c8e6c9;
+
+  --default-day-color: #d6eadf;
+  --default-day-hover: #c2dfcf;
+}
+
 .journal-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -14,14 +31,15 @@
 
 .view-toggle button {
   padding: 8px 16px;
-  background: #f0f0f0;
+  border: none;
+  background: #4CAF50;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
 .view-toggle button.active {
-  background: #1890ff;
+  background: #45a049;
   color: white;
 }
 
@@ -40,20 +58,20 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  background: #fff9c4; /* Default sticky note color */
+  background: var(--happy-color); /* Default sticky note color */
   position: relative;
 }
 
 .sticky-note.empty {
   opacity: 1;
-  background: #D7EADF;
+  background: var(--default-day-color);
 }
 
-.sticky-note.happy { background: #fff9c4; } /* Yellow */
-.sticky-note.neutral { background: #e3f2fd; } /* Blue */
-.sticky-note.sad { background: #fce4ec; } /* Pink */
-.sticky-note.angry { background: #ffebee; } /* Red */
-.sticky-note.anxious { background: #e8f5e9; } /* Green */
+.sticky-note.happy { background: var(--happy-color); }
+.sticky-note.neutral { background: var(--neutral-color); }
+.sticky-note.sad { background: var(--sad-color); }
+.sticky-note.angry { background: var(--angry-color); }
+.sticky-note.anxious { background: var(--anxious-color); }
 
 .sticky-header {
   font-weight: bold;
@@ -80,6 +98,11 @@
   flex: 1;
   margin: 10px 0;
   white-space: pre-wrap;
+  margin: 10px 0;
+  min-height: 150px;
+  background: rgba(255,255,255,0.7);
+  padding: 8px;
+  border-radius: 4px;
 }
 
 .sticky-edit textarea {
@@ -121,35 +144,6 @@
   margin-top: auto;
 }
 
-/* Calendar View */
-.calendar-view {
-  margin-top: 20px;
-}
-
-.calendar-header {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-}
-
-.calendar-day {
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  cursor: pointer;
-  background: #f5f5f5;
-}
-
 .sticky-edit {
   display: flex;
   flex-direction: column;
@@ -170,49 +164,41 @@
   background: #45a049;
 }
 
-.mood-selector {
-  display: flex;
-  justify-content: space-around;
-  margin: 10px 0;
-  font-size: 24px;
-}
-
-.mood-selector span {
-  cursor: pointer;
-  opacity: 0.7;
-  transition: all 0.2s;
-}
-
-.mood-selector span.selected {
-  opacity: 1;
-  transform: scale(1.2);
-}
-
-.sticky-content p {
-  flex: 1;
-  margin: 10px 0;
-  white-space: pre-wrap;
-  min-height: 150px;
-  background: rgba(255,255,255,0.7);
-  padding: 8px;
-  border-radius: 4px;
-}
-
 /*--------------------Calendar view style -------------------*/
 .journal-calendar {
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 20px auto;
   border: none;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.calendar-view {
+  margin-top: 20px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #f5f5f5;
+}
+
 /* Mood colors for calendar days */
-.calendar-day-happy { background: #fff9c4; }
-.calendar-day-neutral { background: #e3f2fd; }
-.calendar-day-sad { background: #fce4ec; }
-.calendar-day-angry { background: #ffebee; }
-.calendar-day-anxious { background: #e8f5e9; }
+.calendar-day-happy { background: var(--happy-color) !important;}
+.calendar-day-neutral { background: var(--neutral-color) !important; }
+.calendar-day-sad { background: var(--sad-color) !important; }
+.calendar-day-angry { background: var(--angry-color) !important; }
+.calendar-day-anxious { background: var(--anxious-color) !important; }
+
+.journal-calendar button.calendar-day-happy:hover { background: var(--happy-hover) !important; }
+.journal-calendar button.calendar-day-neutral:hover { background: var(--neutral-hover) !important; }
+.journal-calendar button.calendar-day-sad:hover { background: var(--sad-hover) !important; }
+.journal-calendar button.calendar-day-angry:hover { background: var(--angry-hover) !important; }
+.journal-calendar button.calendar-day-anxious:hover { background: var(--anxious-hover) !important; }
 
 /* Entry popup styles */
 .entry-popup {
@@ -244,6 +230,61 @@
 }
 
 /* Highlight today's date */
-.react-calendar__tile--now {
+/*.react-calendar__tile--now {
   background: #f0f8ff !important;
+}*/
+
+/*--------------------Calendar Component view style -------------------*/
+.react-calendar__navigation {
+  display: flex;
+}
+
+.react-calendar__navigation__label {
+  font-weight: bold;
+}
+
+.react-calendar__navigation__arrow {
+  flex-grow: 0.333;
+}
+
+.react-calendar__month-view__weekdays {
+  text-align: center;
+}
+
+.react-calendar__tile.react-calendar__month-view__days__day:not([class*="calendar-day-"]) {
+  background-color: var(--default-day-color);
+  border: 1px solid black;
+  color: #53B574;
+}
+
+.react-calendar__tile.react-calendar__month-view__days__day:not([class*="calendar-day-"]):hover {
+  background-color: var(--default-day-hover);
+}
+
+.journal-calendar button {
+  margin: 3px;
+  border: 0;
+  border-radius: 3px;
+  color: white;
+  padding: 7px 0;
+}
+
+.react-calendar__month-view__days {
+  display: grid !important;
+  grid-template-columns: 14.2% 14.2% 14.2% 14.2% 14.2% 14.2% 14.2%; 
+}
+
+.react-calendar__tile {
+  max-width: initial !important;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  opacity: 0.7;
+}
+.react-calendar__month-view__days__day--weekend {
+  color: #dfdfdf;
+}
+
+.react-calendar__tile--range {
+    box-shadow: 0 0 6px 2px black;
 }
