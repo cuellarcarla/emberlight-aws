@@ -60,12 +60,12 @@ color: limegreen;
     z-index: 100;
 }
 
-.logout-option {
+.logout-option, .profile-option {
     padding: 8px 15px;
     cursor: pointer;
     border-radius: 5px;
 }
 
-.logout-option:hover {
+.logout-option:hover, .profile-option:hover {
     background-color: #f1f1f1;
 }

@@ -12,7 +12,7 @@ import { useAuth } from "./contexts/AuthContext";
 const Layout = ({ children }) => {
   const location = useLocation();
   const { user, logout } = useAuth();
-  const showMainNavbar = ["/", "/login"].includes(location.pathname);
+  const showMainNavbar = ["/", "/login", "/register"].includes(location.pathname);
 
   return (
     <>

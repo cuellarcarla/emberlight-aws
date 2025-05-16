@@ -19,6 +19,10 @@ const AppNavbar = () => {
     navigate("/login");
   };
 
+  const profileRedirect = () => {
+    navigate("/profile");
+  }
+
   return (
     <nav className="navbar">
       <div className="nav-left">
@@ -41,6 +45,7 @@ const AppNavbar = () => {
         </IconContext.Provider>
         {dropdownOpen && (
           <div className="dropdown">
+            <div className="profile-option" onClick={profileRedirect}>Perfil</div>
             <div className="logout-option" onClick={handleLogout}>Logout</div>
           </div>
         )}
