@@ -1,56 +1,83 @@
-from rest_framework.views import APIView
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.contrib.auth import authenticate, login, logout
-from .serializers import RegisterSerializer, LoginSerializer
+from django.contrib.auth import login, logout
+from django.shortcuts import get_object_or_404
+from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
 
-class MeView(APIView):
-    permission_classes = [IsAuthenticated]
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def register(request):
+    serializer = RegisterSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"message": "User created"}, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request):
-        return Response({
-            "username": request.user.username,
-            "email": request.user.email,
-            "user_id": request.user.id,
-            "is_authenticated": True
-        })
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def login_view(request):
+    serializer = LoginSerializer(data=request.data)
+    if serializer.is_valid():
+        login(request, serializer.validated_data['user'])
+        return Response(UserSerializer(serializer.validated_data['user']).data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class RegisterView(APIView):
-    permission_classes = [AllowAny]
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def logout_view(request):
+    logout(request)
+    return Response({"message": "Logged out"})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def me(request):
+    return Response(UserSerializer(request.user).data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_users(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_user(request, user_id):
+
+    user = get_object_or_404(User, id=user_id)
+
+    if request.user != user:
+        return Response(
+            {"error": "Cannot update other users"},
+            status=status.HTTP_403_FORBIDDEN
+        )
     
-    def post(self, request):
-        serializer = RegisterSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            return Response(
-                {"message": "User registered successfully"}, 
-                status=status.HTTP_201_CREATED
-            )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer = UserSerializer(user, data=request.data, partial=False)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class LoginView(APIView):
-    permission_classes = [AllowAny]
-    
-    def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.validated_data["user"]
-            login(request, user)
-            response = Response({
-                "id": user.id,
-                "username": user.username,
-            })
-            
-            # Setting the cookie attributes in session
-            request.session['user_id'] = user.id
-            request.session.save()
-            return response
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_user(request, user_id):
 
-class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
+    user = get_object_or_404(User, id=user_id)
+
+    if request.user != user:
+        return Response(
+            {"error": "Cannot delete other users"},
+            status=status.HTTP_403_FORBIDDEN
+        )
     
-    def post(self, request):
-        logout(request)
-        return Response({"message": "Logged out successfully"})
+    user.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)

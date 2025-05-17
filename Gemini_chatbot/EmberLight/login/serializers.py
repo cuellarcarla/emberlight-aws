@@ -2,22 +2,28 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import User
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email']
+        read_only_fields = ['id']
+
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
-        extra_kwargs = {'password': {'write_only': True}, 'email': {'required': True, 'allow_blank': False},}
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'email': {'required': True}
+        }
+
+    def validate_username(self, value):
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError("Username is already taken.")
+        return value
 
     def create(self, validated_data):
-        if User.objects.filter(username=validated_data['username']).exists():
-            raise serializers.ValidationError({"username": "Username is already taken."})
-
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password']
-        )
-        return user
+        return User.objects.create_user(**validated_data)
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -26,5 +32,5 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, data):
         user = authenticate(username=data["username"], password=data["password"])
         if not user:
-            raise serializers.ValidationError("Invalid username or password.")
+            raise serializers.ValidationError("Invalid credentials")
         return {"user": user}
