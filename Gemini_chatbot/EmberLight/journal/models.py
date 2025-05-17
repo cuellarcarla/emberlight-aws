@@ -3,11 +3,11 @@ from login.models import User
 
 class JournalEntry(models.Model):
     MOOD_CHOICES = [
-        ('happy', '😊 Happy'),
+        ('feliz', '😊 Feliz'),
         ('neutral', '😐 Neutral'),
-        ('sad', '😢 Sad'),
-        ('angry', '😠 Angry'),
-        ('anxious', '😰 Anxious'),
+        ('triste', '😢 Triste'),
+        ('enojado', '😠 Enojado'),
+        ('ansioso', '😰 Ansioso'),
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
