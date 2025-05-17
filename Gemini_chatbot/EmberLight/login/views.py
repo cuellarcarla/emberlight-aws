@@ -2,9 +2,11 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, get_user_model
 from django.shortcuts import get_object_or_404
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
+
+User = get_user_model() # We get the user from the setting.py
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -61,11 +63,15 @@ def update_user(request, user_id):
             status=status.HTTP_403_FORBIDDEN
         )
     
-    serializer = UserSerializer(user, data=request.data, partial=False)
+    serializer = UserSerializer(user, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    errors = {}
+    for field, error_list in serializer.errors.items():
+        errors[field] = error_list[0] if error_list else "Invalid value"
+    return Response({"errors": errors}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
@@ -80,4 +86,5 @@ def delete_user(request, user_id):
         )
     
     user.delete()
+    logout(request)
     return Response(status=status.HTTP_204_NO_CONTENT)

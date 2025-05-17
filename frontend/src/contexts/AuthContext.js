@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
       if (res.ok) {
         const userData = await res.json();
         setUser({
-          id: userData.user_id,
+          id: userData.id,
           username: userData.username,
           email: userData.email,
         });
@@ -97,8 +97,37 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUser = async ({ username, email }) => {
+    try {
+      const response = await fetch(`http://localhost:8000/auth/users/${user.id}/update/`, {
+        method: 'PUT',
+        headers: { 
+          "Content-Type": "application/json",
+          'X-CSRFToken': getCookie('csrftoken'),
+        },
+        credentials: "include",
+        body: JSON.stringify({ username, email }),
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        const errorMsg = responseData.errors 
+          ? Object.values(responseData.errors).join('\n')
+          : responseData.error || "Update failed";
+        throw new Error(errorMsg);
+      }
+
+      setUser(prev => ({ ...prev, ...responseData }));
+      return true;
+    } catch (error) {
+      console.error('Update error:', error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, register, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, register, updateUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

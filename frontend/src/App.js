@@ -3,6 +3,7 @@ import MainNavbar from "./components/MainNavbar";
 import AppNavbar from "./components/AppNavbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import MainPage from "./pages/MainPage";
 import JournalPage from "./pages/JournalPage";
@@ -45,6 +46,10 @@ function App() {
           <Route 
             path="/journal" 
             element={user ? <JournalPage /> : <Navigate to="/login" replace />} 
+          />
+          <Route 
+            path="/profile" 
+            element={user ? <Profile /> : <Navigate to="/login" replace />} 
           />
 
           {/* Not found page, not necessary to check sessions */}
