@@ -27,7 +27,7 @@ const AppNavbar = () => {
     <nav className="navbar">
       <div className="nav-left">
         <Link to="/journal" className="logo-link">
-          <img src="/logo.png" alt="Logo" className="logo"></img>
+          <img src="/logoEmberLight.jpg" alt="Logo" className="logo"></img>
         </Link>
         <Link to="/journal" className="nav-link">DIARIO</Link>
         <Link to="/chat" className="nav-link">CHAT</Link>

@@ -69,3 +69,11 @@ color: limegreen;
 .logout-option:hover, .profile-option:hover {
     background-color: #f1f1f1;
 }
+
+.logo-link img {
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    width: 2rem;
+    height: 2rem;
+    color: black;
+}

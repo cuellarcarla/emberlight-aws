@@ -15,11 +15,8 @@
   --default-day-hover: #c2dfcf;
 }
 
-body {
-  background-color: #ebfbf3;
-}
-
 .journal-container {
+  background-color: #ebfbf3;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
