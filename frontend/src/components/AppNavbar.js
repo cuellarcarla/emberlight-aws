@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { FaBell, FaRegQuestionCircle, FaUser } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import "./AppNavbar.css";
 import { useAuth } from "../contexts/AuthContext";
@@ -37,8 +37,6 @@ const AppNavbar = () => {
         <IconContext.Provider
           value={{ className: "nav-icon" }}
         >
-          <FaBell />
-          <FaRegQuestionCircle />
           <div className="user-icon" onClick={toggleDropdown}>
             <FaUser />
           </div>

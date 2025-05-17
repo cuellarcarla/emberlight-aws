@@ -23,9 +23,10 @@ function Login() {
   };
 
   return (
+    <div className="login-container-main">
     <div className="login-wrapper">
         <div className="login-inspire">
-            <p>“Si puedes leer esto es porque tienes ojos. No sé qué más poner aqui lorem ipsum”</p>
+            <p>“Encuentra claridad emocional con Emberlight”</p>
         </div>
         <div className="login-container">
             <h2>Login</h2>
@@ -48,6 +49,7 @@ function Login() {
                 <button type="submit">Login</button>
             </form>
         </div>
+    </div>
     </div>
   );
 }

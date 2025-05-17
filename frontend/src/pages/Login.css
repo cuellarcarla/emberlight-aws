@@ -1,6 +1,9 @@
-.login-wrapper {
-  height: 100vh;
+.login-container-main {
+  height: 88vh;
   background-color: #f1f8e9;
+}
+
+.login-wrapper {
   display: flex;
   justify-content: space-around;
   gap: -20px;
@@ -11,7 +14,7 @@
 
 .login-inspire {
   width: 500px;
-  color: #fff;
+  color: #000;
   font-size: 30px;
 }
 

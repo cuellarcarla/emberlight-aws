@@ -6,6 +6,7 @@
     padding: 10px 30px;
     background-color: #f1f8e9;
     color: #686868;
+    z-index: 10;
 }
 
 .nav-left {

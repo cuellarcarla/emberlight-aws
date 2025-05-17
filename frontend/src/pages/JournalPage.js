@@ -102,6 +102,7 @@ function JournalPage() {
   };
 
   return (
+    <div className="journal-page-wrapper">
     <div className="journal-container">
       <h1 style={{ color: "#2F5D46" }}>Tu Diario Mental</h1>
 
@@ -139,6 +140,7 @@ function JournalPage() {
           setSelectedDate={setSelectedDate}
         />
       )}
+    </div>
     </div>
   );
 }
