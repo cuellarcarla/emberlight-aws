@@ -153,7 +153,7 @@ function JournalPage() {
 
       {viewMode === 'week' && (
         <WeekView
-          entries={entries}
+          entries={Array.isArray(entries) ? entries : []} 
           weekDates={getWeekDates()}
           editingDate={editingDate}
           currentMood={currentMood}

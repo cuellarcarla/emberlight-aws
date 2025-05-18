@@ -16,10 +16,12 @@ const AppNavbar = () => {
 
   const handleLogout = () => {
     logout();
+    setDropdownOpen(false)
     navigate("/login");
   };
 
   const profileRedirect = () => {
+    setDropdownOpen(false)
     navigate("/profile");
   }
 

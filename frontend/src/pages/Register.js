@@ -7,6 +7,7 @@ function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState("");
   const navigate = useNavigate();
   const { register } = useAuth();
@@ -16,6 +17,11 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors("");
+
+    if (password !== confirmPassword) {
+      setErrors("Las contraseñas no coinciden.");
+      return;
+    }
 
     if (!passwordRegex.test(password)) {
       setErrors("La contraseña debe tener por lo menos 1 mayúscula, 1 minúscula, 1 número, y 1 carácter especial.");
@@ -61,6 +67,13 @@ function Register() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
           <button type="submit">Registrarse</button>
