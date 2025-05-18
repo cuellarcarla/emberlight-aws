@@ -30,9 +30,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "supersecret")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, '../staticfiles')  # Where collectstatic will put files
+
+# For React's built static files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, '../../../frontend/build/static'),  # Path to React's built static files
+]
 
 
 # Application definition
