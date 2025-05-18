@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     me, register, login_view, logout_view,
-    get_users, get_user, update_user, delete_user
+    get_users, get_user, update_user, delete_user, delete_user_data
 )
 
 urlpatterns = [
@@ -13,4 +13,5 @@ urlpatterns = [
     path('users/<int:user_id>/', get_user, name='get_user'),
     path('users/<int:user_id>/update/', update_user, name='update_user'),
     path('users/<int:user_id>/delete/', delete_user, name='delete_user'),
+    path('users/delete-data/', delete_user_data, name='delete_user_data'),
 ]

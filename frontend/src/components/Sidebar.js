@@ -37,7 +37,7 @@ function Sidebar({ sessions, activeSession, onSelectSession, onCreateSession, on
     <div className="sidebar">
       <div className="new-chat-button-container">
         <button className="new-chat-button" onClick={onCreateSession}>
-          + New chat
+          Nuevo Chat
         </button>
       </div>
       <div className="sessions-list">

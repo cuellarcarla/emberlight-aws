@@ -5,13 +5,14 @@ import { getCookie } from "../utils/cookies";
 import './Profile.css';
 
 const Profile = () => {
-  const { user, updateUser, logout } = useAuth();
+  const { user, updateUser, deleteUserData, logout } = useAuth();
   const [formData, setFormData] = useState({
     username: '',
     email: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,6 +33,15 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.username === user.username && formData.email === user.email) {
+      setError('No hay cambios para guardar');
+      return;
+    }
+    if (!window.confirm('¿Estás seguro de que quieres actualizar tu información?')) {
+      return;
+    }
+
     setLoading(true);
     setError('');
     
@@ -40,8 +50,10 @@ const Profile = () => {
         username: formData.username,
         email: formData.email
       });
+      setSuccess('Información actualizada correctamente');
     } catch (err) {
       setError(err.message);
+      setSuccess('');
     } finally {
       setLoading(false);
     }
@@ -71,9 +83,21 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteData = async () => {
+    if (window.confirm('¿Estás seguro de que quieres borrar todos tus datos (diarios y chats)? Esta acción no se puede deshacer.')) {
+      try {
+        await deleteUserData();
+        window.location.reload();
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+  };
+
   if (!user) return <div>Loading...</div>;
 
   return (
+    <div className="profile-page-wrapper">
     <div className="profile-container">
       <div className="profile-header">
         <h2>Tu Perfil</h2>
@@ -111,6 +135,7 @@ const Profile = () => {
         </div>
 
         {error && <div className="error-message">{error}</div>}
+        {success && <div className="success-message">{success}</div>}
 
         <button type="submit" disabled={loading}>
           {loading ? 'Guardando...' : 'Guardar Cambios'}
@@ -120,12 +145,19 @@ const Profile = () => {
       <div className="danger-zone">
         <h3>Zona Peligrosa</h3>
         <button 
+          onClick={handleDeleteData} 
+          className="delete-data-button"
+        >
+          Borrar Todos Mis Datos
+        </button>
+        <button 
           onClick={handleDelete} 
           className="delete-button"
         >
           Eliminar Cuenta
         </button>
       </div>
+    </div>
     </div>
   );
 };

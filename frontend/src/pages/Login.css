@@ -25,27 +25,27 @@
     border-radius: 5px;
     background: white;
     text-align: center;
-  }
+}
   
-  input {
-    width: 85%;
-    padding: 20px;
-    margin: 10px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+input {
+  width: 85%;
+  padding: 20px;
+  margin: 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
   
-  button {
-    width: 100%;
-    padding: 10px;
-    background: green;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+button {
+  width: 100%;
+  padding: 10px;
+  background: #66bb6a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
   
-  button:hover {
-    background: darkgreen;
-  }
+button:hover {
+  background: #57a358;
+}
   

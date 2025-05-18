@@ -4,7 +4,8 @@
   height: 60px;
   align-items: center;
   padding: 10px 20px;
-  background-color: #fff;
+  background-color: #d7e8c1;
+  border-bottom: 1px solid #c3d6b5;
   color: #686868;
   position: relative;
   z-index: 1;

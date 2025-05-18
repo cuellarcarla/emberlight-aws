@@ -3,8 +3,7 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  background: #B4ECCB;
-  background: linear-gradient(180deg,rgba(180, 236, 203, 1) 42%, rgba(210, 250, 227, 1) 87%);
+  background: linear-gradient(360deg, #f2f8ef 10%, #f1f8e9 90%);
 }
 
 .empty-state {
@@ -44,7 +43,7 @@
 .user-message {
   align-self: flex-end;
   color: white;
-  background-color: #74DB9F;
+  background-color: #4caf50;
   border-bottom-right-radius: 0;
 }
 
@@ -82,7 +81,7 @@
 
 .send-button {
   padding: 0 12px !important;
-  background-color: #74DB9F !important;
+  background-color: #4caf50 !important;
   color: white !important;
   border: none !important;
   border-radius: 20px !important;
@@ -97,7 +96,7 @@
 }
 
 .send-button:hover:not(:disabled) {
-  background-color: #0d8e6d !important;
+  background-color: #388e3c !important;
 }
 
 .send-button:disabled {

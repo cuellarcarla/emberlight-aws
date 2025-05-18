@@ -7,7 +7,7 @@ function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState("");
   const navigate = useNavigate();
   const { register } = useAuth();
 
@@ -15,10 +15,10 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setErrors("");
 
     if (!passwordRegex.test(password)) {
-      setError("Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.");
+      setErrors("La contraseña debe tener por lo menos 1 mayúscula, 1 minúscula, 1 número, y 1 carácter especial.");
       return;
     }
 
@@ -26,15 +26,21 @@ function Register() {
       await register({ username, email, password });
       navigate("/login");
     } catch (err) {
-      setError("Registration failed");
+      if (err.response?.data?.errors) {
+        const backendErrors = err.response.data.errors;
+        const errorMessages = Object.values(backendErrors).join('\n');
+        setErrors(errorMessages);
+      } else {
+        setErrors("Registration failed");
+      }
     }
   };
 
   return (
     <div className="register-wrapper">
       <div className="register-container">
-        <h2>Register</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        <h2>Registro</h2>
+        {errors && <p style={{ color: "red" }}>{errors}</p>}
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -57,7 +63,7 @@ function Register() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit">Register</button>
+          <button type="submit">Registrarse</button>
         </form>
       </div>
     </div>
