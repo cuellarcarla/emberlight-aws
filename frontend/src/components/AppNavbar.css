@@ -1,12 +1,12 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  height: 45px;
+  height: 60px;
   align-items: center;
   padding: 10px 20px;
-  background-color: #fff;
+  background-color: #d7e8c1;
+  border-bottom: 1px solid #c3d6b5;
   color: #686868;
-  box-shadow: 0px 3px #cecece;
   position: relative;
   z-index: 1;
 }
@@ -15,6 +15,7 @@
     display: flex;
     align-items: center;
     gap: 20px;
+    font-weight: bold;
 }
 
 .nav-right {
@@ -60,12 +61,20 @@ color: limegreen;
     z-index: 100;
 }
 
-.logout-option {
+.logout-option, .profile-option {
     padding: 8px 15px;
     cursor: pointer;
     border-radius: 5px;
 }
 
-.logout-option:hover {
+.logout-option:hover, .profile-option:hover {
     background-color: #f1f1f1;
+}
+
+.logo-link img {
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    width: 2rem;
+    height: 2rem;
+    color: black;
 }

@@ -1,16 +1,16 @@
 .chat-layout {
-    display: flex;
-    height: calc(100vh - 65px); /* This is the navbar height, to help make it fit */
-    width: 100%;
-  }
+  display: flex;
+  height: calc(100vh - 82px); /* This is the navbar height, to help make it fit */
+  width: 100%;
+}
   
 .sidebar-container {
-  width: 260px;
+  width: 335px;
+  min-width: 335px;
   height: 100%;
-  border-right: 1px solid #e0e0e0;
-  background-color: #f0f0f0;
-  overflow-y: auto;
+  overflow: hidden;
   scrollbar-width: none;
+  position: relative;
 }
 
 .sidebar-container::-webkit-scrollbar {
@@ -18,7 +18,7 @@
 }
 
 .chat-content-container {
-  flex: 1;
+  flex: 2;
   display: flex;
   flex-direction: column;
   height: 100%;

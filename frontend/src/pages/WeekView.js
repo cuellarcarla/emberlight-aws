@@ -4,14 +4,14 @@ import { format } from 'date-fns';
 // Moods. First value: matches the database value. Must match the value from the django model.
 // Second value: display for user visualization
 const MOODS = [
-  ['happy', '😊'],
+  ['feliz', '😊'],
   ['neutral', '😐'],
-  ['sad', '😢'],
-  ['angry', '😠'],
-  ['anxious', '😰'],
+  ['triste', '😢'],
+  ['enojado', '😠'],
+  ['ansioso', '😰'],
 ];
 
-function WeekView({ entries, weekDates, editingDate, currentMood, setCurrentMood, handleSave, startEditing }) {
+function WeekView({ entries, weekDates, editingDate, currentMood, setCurrentMood, handleSave, startEditing, handleDeleteEntry, setEditingDate }) {
   const textareaRef = useRef(null);
 
   // Check whenever we start editing the text area so the user can type or not.
@@ -37,6 +37,20 @@ function WeekView({ entries, weekDates, editingDate, currentMood, setCurrentMood
             <div className="sticky-header" style={{ color: "#5F7F71" }}>
               {date.toLocaleDateString('es-ES', { weekday: 'long' })}
               <div className="sticky-date" style={{ color: "#5F7F71" }}>{date.getDate()}</div>
+              <button 
+                className="delete-entry-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (entry) {
+                    if (window.confirm('¿Estás seguro de que quieres eliminar esta entrada?')) {
+                      handleDeleteEntry(entry.id);
+                    }
+                  } else {
+                    alert('No hay ninguna entrada para eliminar en esta fecha.');
+                  }
+                }}
+                title={entry ? "Eliminar entrada" : "No hay entrada para eliminar"}
+              />
             </div>
 
             {isEditing ? (
@@ -45,7 +59,7 @@ function WeekView({ entries, weekDates, editingDate, currentMood, setCurrentMood
                 <textarea
                   ref={textareaRef}
                   defaultValue={entry?.text || ''}
-                  placeholder="Write your thoughts here..."
+                  placeholder="Escribe tus emociones..."
                   data-date={toLocalDateString(date)}
                 />
                 {/* We display the mood selector area */}
@@ -55,20 +69,31 @@ function WeekView({ entries, weekDates, editingDate, currentMood, setCurrentMood
                       key={value}
                       className={currentMood === value ? 'selected' : ''}
                       onClick={() => setCurrentMood(value)}
+                      title={value.charAt(0).toUpperCase() + value.slice(1)}
                     >
                       {emoji}
                     </span>
                   ))}
                 </div>
                 {/* We display the Save Button */}
-                <button onClick={() => handleSave(date)} className="save-button">Save</button>
+                <div className="button-group">
+                  <button onClick={() => handleSave(date)} className="save-button">
+                    Guardar
+                  </button>
+                  <button 
+                    onClick={() => setEditingDate(null)} 
+                    className="cancel-button"
+                  >
+                    Cancelar
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="sticky-content"> {/* If the user is NOT editing... */}
-                <p>{entry?.text || 'No entry yet'}</p>
+                <p>{entry?.text || 'Escribe tus emociones...'}</p>
                 {/* We display an Edit or Add Entry button, based on if the entry exists in the DB */}
                 <button onClick={() => startEditing(date, entry)} className="edit-button">
-                  {entry ? 'Edit' : 'Add Entry'}
+                  {entry ? 'Editar' : 'Crear Entrada'}
                 </button>
               </div>
             )}

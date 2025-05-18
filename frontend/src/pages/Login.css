@@ -1,5 +1,6 @@
-body {
-  background-color: #F0F8F5;
+.login-container-main {
+  height: 88vh;
+  background-color: #f1f8e9;
 }
 
 .login-wrapper {
@@ -13,7 +14,7 @@ body {
 
 .login-inspire {
   width: 500px;
-  color: #fff;
+  color: #000;
   font-size: 30px;
 }
 
@@ -24,27 +25,27 @@ body {
     border-radius: 5px;
     background: white;
     text-align: center;
-  }
+}
   
-  input {
-    width: 85%;
-    padding: 20px;
-    margin: 10px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+input {
+  width: 85%;
+  padding: 20px;
+  margin: 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
   
-  button {
-    width: 100%;
-    padding: 10px;
-    background: green;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+button {
+  width: 93%;
+  padding: 20px;
+  background: #66bb6a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
   
-  button:hover {
-    background: darkgreen;
-  }
+button:hover {
+  background: #57a358;
+}
   

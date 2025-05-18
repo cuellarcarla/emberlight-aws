@@ -35,9 +35,11 @@ function Sidebar({ sessions, activeSession, onSelectSession, onCreateSession, on
 
   return (
     <div className="sidebar">
-      <button className="new-chat-button" onClick={onCreateSession}>
-        + New chat
-      </button>
+      <div className="new-chat-button-container">
+        <button className="new-chat-button" onClick={onCreateSession}>
+          Nuevo Chat
+        </button>
+      </div>
       <div className="sessions-list">
         {sessions.map(session => (
           <div

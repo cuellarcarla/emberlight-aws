@@ -8,8 +8,9 @@ const MainNavbar = () => {
     <nav className="main-navbar">
       <div className="nav-left">
         <Link to="/" className="logo-link">
-          <img src="/logo.png" alt="Logo" className="logo"></img>
+          <img src="/logoEmberLight.jpg" alt="Logo" className="logo"></img>
         </Link>
+        <span className="logo-text">EmberLight</span>
       </div>
       <div className="nav-right">
         <Link to="/about">Sobre nosotros</Link>

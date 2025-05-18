@@ -59,22 +59,32 @@ function JournalPage() {
     // Basically:
     // If the entry exists in the DB -> Edit the entry with PUT
     // If the entry doesn't exist in the DB -> Create a new entry with POST
-    const url = existingEntry
-      ? `http://localhost:8000/journal/entries/${existingEntry.id}/`
-      : 'http://localhost:8000/journal/entries/';
-    const method = existingEntry ? 'PUT' : 'POST';
-
     try {
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': getCookie('csrftoken'),
-        },
-        credentials: 'include',
-        // Store date of the journal entry, the mood and text
-        body: JSON.stringify({ date: dateStr, mood: currentMood, text }),
-      });
+      let response;
+    
+      if (existingEntry) {
+        // Update existing entry (PATCH)
+        response = await fetch(`http://localhost:8000/journal/entries/${existingEntry.id}/update/`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
+          },
+          credentials: 'include',
+          body: JSON.stringify({ mood: currentMood, text }),
+        });
+      } else {
+        // Create new entry (POST)
+        response = await fetch(`http://localhost:8000/journal/entries/create/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
+          },
+          credentials: 'include',
+          body: JSON.stringify({ date: dateStr, mood: currentMood, text }),
+        });
+      }
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -96,12 +106,33 @@ function JournalPage() {
     }
   };
 
+  const handleDeleteEntry = async (entryId) => {
+    try {
+      const response = await fetch(`http://localhost:8000/journal/entries/${entryId}/delete/`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken'),
+        },
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        setEntries(prev => prev.filter(e => e.id !== entryId));
+        if (editingDate) setEditingDate(null);
+      }
+    } catch (error) {
+      console.error('Error deleting entry:', error);
+    }
+  };
+
   const startEditing = (date, entry) => {
     setEditingDate(format(date, 'yyyy-MM-dd'));
     setCurrentMood(entry?.mood || 'neutral');
   };
 
   return (
+    <div className="journal-page-wrapper">
     <div className="journal-container">
       <h1 style={{ color: "#2F5D46" }}>Tu Diario Mental</h1>
 
@@ -122,13 +153,15 @@ function JournalPage() {
 
       {viewMode === 'week' && (
         <WeekView
-          entries={entries}
+          entries={Array.isArray(entries) ? entries : []} 
           weekDates={getWeekDates()}
           editingDate={editingDate}
           currentMood={currentMood}
           setCurrentMood={setCurrentMood}
           handleSave={handleSave}
           startEditing={startEditing}
+          handleDeleteEntry={handleDeleteEntry}
+          setEditingDate={setEditingDate}
         />
       )}
 
@@ -139,6 +172,7 @@ function JournalPage() {
           setSelectedDate={setSelectedDate}
         />
       )}
+    </div>
     </div>
   );
 }
