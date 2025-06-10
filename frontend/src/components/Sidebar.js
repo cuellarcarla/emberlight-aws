@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../config';
 import React, { useState } from 'react';
 import './Sidebar.css';
 import { getCookie } from '../utils/cookies';
@@ -11,7 +12,7 @@ function Sidebar({ sessions, activeSession, onSelectSession, onCreateSession, on
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/geminiapi/sessions/${sessionId}/delete`, {
+      const res = await fetch(`${API_BASE_URL}/geminiapi/sessions/${sessionId}/delete`, {
         method: "DELETE",
         credentials: "include",
         headers: {

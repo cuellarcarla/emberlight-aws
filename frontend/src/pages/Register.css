@@ -38,3 +38,33 @@
 .register-container button:hover {
   background: #57a358;
 }
+
+@media (max-width: 600px) {
+  .register-wrapper {
+    height: auto;
+    min-height: 100vh;
+    padding: 1rem 0;
+    flex-direction: column;
+  }
+
+  .register-container {
+    max-width: 100%;
+    padding: 10px;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+  }
+
+  .register-container input {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    font-size: 1rem;
+  }
+
+  .register-container button {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    font-size: 1rem;
+  }
+}

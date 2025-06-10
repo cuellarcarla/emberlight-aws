@@ -24,3 +24,29 @@
   height: 100%;
   overflow: hidden;
 }
+
+@media (max-width: 600px) {
+  .chat-layout {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .sidebar-container {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    max-height: 220px;
+    overflow-x: auto;
+    position: static;
+    margin-bottom: 10px;
+  }
+
+  .chat-content-container {
+    flex: none;
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    overflow: visible;
+  }
+}

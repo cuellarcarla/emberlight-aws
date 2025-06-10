@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import (
     me, register, login_view, logout_view,
-    get_users, get_user, update_user, delete_user, delete_user_data
+    get_users, get_user, update_user, delete_user, delete_user_data,
+    csrf,
 )
 
 urlpatterns = [

@@ -5,7 +5,7 @@ import "./AppNavbar.css";
 import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
 
-const AppNavbar = () => {
+const AppNavbar = ({ theme, toggleTheme }) => {
   const { user, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
@@ -35,10 +35,22 @@ const AppNavbar = () => {
         <Link to="/chat" className="nav-link">CHAT</Link>
       </div>
       <div className="nav-right">
-      {user && <span className="user">Bienvenido, {user.username}!</span>}
-        <IconContext.Provider
-          value={{ className: "nav-icon" }}
+        {user && <span className="user">Bienvenido, {user.username}!</span>}
+        <button
+          onClick={toggleTheme}
+          title={theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
+          style={{
+            background: "none",
+            border: "none",
+            fontSize: "1.3rem",
+            cursor: "pointer",
+            marginLeft: "1rem"
+          }}
+          aria-label="Cambiar tema"
         >
+	  {theme === 'light' ? '☀️' : '🌙'}
+        </button>
+        <IconContext.Provider value={{ className: "nav-icon" }}>
           <div className="user-icon" onClick={toggleDropdown}>
             <FaUser />
           </div>

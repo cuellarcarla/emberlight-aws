@@ -353,3 +353,98 @@
 .react-calendar__tile--range {
     box-shadow: 0 0 6px 2px black;
 }
+
+@media (max-width: 600px) {
+  .journal-container {
+    max-width: 100%;
+    padding: 2px;
+  }
+
+  .view-toggle {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .sticky-notes-container {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .sticky-note {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 120px;
+    padding: 8px;
+    font-size: 0.98rem;
+  }
+
+  .sticky-header {
+    font-size: 13px;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sticky-date {
+    font-size: 0.85rem;
+    margin-left: 0;
+  }
+
+  .sticky-content p {
+    font-size: 11px;
+    margin: 4px 0;
+  }
+
+  .sticky-edit textarea {
+    min-height: 70px;
+    padding: 6px;
+    font-size: 0.98rem;
+  }
+
+  .mood-selector {
+    font-size: 17px;
+    gap: 6px;
+  }
+
+  .edit-button,
+  .save-button,
+  .cancel-button,
+  .delete-entry-btn {
+    width: 100%;
+    font-size: 0.98rem;
+    padding: 7px 0;
+    margin: 4px 0;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 5px;
+  }
+
+  .journal-calendar {
+    max-width: 100%;
+    padding: 2px;
+    margin: 8px auto;
+  }
+
+  .entry-popup {
+    max-width: 98vw;
+    padding: 7px;
+    font-size: 0.98rem;
+  }
+
+  .entry-text {
+    font-size: 0.98rem;
+    padding: 7px;
+  }
+
+  .react-calendar__month-view__days {
+    grid-template-columns: repeat(7, 1fr) !important;
+  }
+
+  .react-calendar__tile {
+    font-size: 0.9rem;
+    padding: 4px 0;
+  }
+}

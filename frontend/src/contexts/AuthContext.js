@@ -2,14 +2,21 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { getCookie } from "../utils/cookies";
 
 const AuthContext = createContext();
+const API_BASE_URL = "https://www.emberlight.karura.cat";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/auth/csrf/`, {
+      credentials: 'include'
+    });
+  }, []);
+
   const fetchUser = async () => {
     try {
-      const res = await fetch("http://localhost:8000/auth/me/", {
+      const res = await fetch(`${API_BASE_URL}/auth/me/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -17,7 +24,6 @@ export const AuthProvider = ({ children }) => {
         },
         credentials: "include",
       });
-      
       if (res.ok) {
         const userData = await res.json();
         setUser({
@@ -42,7 +48,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async ({ username, password }) => {
-    const response = await fetch("http://localhost:8000/auth/login/", {
+    const response = await fetch(`${API_BASE_URL}/auth/login/`, {
       method: "POST",
       headers: { 
         "Content-Type": "application/json",
@@ -50,26 +56,19 @@ export const AuthProvider = ({ children }) => {
       },
       credentials: "include",
       body: JSON.stringify({ username, password }),
-      
     });
-
-    console.log('Login response status:', response.status);
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error('Login failed:', errorData);
       throw new Error(errorData.error || "Invalid username or password.");
     }
 
-    // After successful login, verify the session
-    console.log('Login successful, verifying session...');
     const success = await fetchUser();
-    console.log('Session verification result:', success);
     if (!success) throw new Error("Session verification failed");
   };
 
   const logout = async () => {
-    await fetch("http://localhost:8000/auth/logout/", {
+    await fetch(`${API_BASE_URL}/auth/logout/`, {
       method: "POST",
       headers: { 
         "Content-Type": "application/json",
@@ -81,7 +80,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async ({ username, email, password }) => {
-    const response = await fetch("http://localhost:8000/auth/register/", {
+    const response = await fetch(`${API_BASE_URL}/auth/register/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -92,19 +91,17 @@ export const AuthProvider = ({ children }) => {
     });
 
     const responseData = await response.json();
-  
     if (!response.ok) {
       const error = new Error(responseData.errors ? "Validation error" : "Registration failed");
       error.response = { data: responseData };
       throw error;
     }
-    
     return responseData;
   };
 
   const updateUser = async ({ username, email }) => {
     try {
-      const response = await fetch(`http://localhost:8000/auth/users/${user.id}/update/`, {
+      const response = await fetch(`${API_BASE_URL}/auth/users/${user.id}/update/`, {
         method: 'PUT',
         headers: { 
           "Content-Type": "application/json",
@@ -133,7 +130,7 @@ export const AuthProvider = ({ children }) => {
 
   const deleteUserData = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/auth/users/delete-data/`, {
+      const response = await fetch(`${API_BASE_URL}/auth/users/delete-data/`, {
         method: 'POST',
         headers: { 
           "Content-Type": "application/json",
@@ -152,8 +149,40 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // NUEVO: Eliminar cuenta de usuario
+  const deleteUser = async () => {
+    try {
+      const response = await fetch(`https://www.emberlight.karura.cat/auth/users/${user.id}/delete/`, {
+        method: 'DELETE',
+        headers: { 
+          "Content-Type": "application/json",
+          'X-CSRFToken': getCookie('csrftoken'),
+        },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete user account');
+      }
+      setUser(null);
+      return true;
+    } catch (error) {
+      console.error('Account deletion error:', error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, register, updateUser, deleteUserData, loading }}>
+    <AuthContext.Provider value={{
+      user,
+      login,
+      logout,
+      register,
+      updateUser,
+      deleteUserData,
+      deleteUser, // <-- Añadido aquí
+      loading
+    }}>
       {children}
     </AuthContext.Provider>
   );

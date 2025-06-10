@@ -92,3 +92,49 @@ button:hover {
   color: #4CAF50;
   margin: 1rem 0;
 }
+
+@media (max-width: 600px) {
+  .profile-container {
+    max-width: 100%;
+    padding: 0.7rem;
+    border-radius: 8px;
+  }
+
+  .profile-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    font-size: 1.1rem;
+  }
+
+  .user-info,
+  .profile-form,
+  .danger-zone {
+    padding: 0.7rem 0.5rem;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+
+  .form-group input {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+
+  button,
+  .delete-button,
+  .delete-data-button {
+    width: 100%;
+    padding: 0.8rem 0;
+    font-size: 1rem;
+    margin-right: 0 !important;
+    margin-top: 10px;
+  }
+
+  .danger-zone button {
+    margin-top: 10px;
+  }
+
+  .success-message {
+    font-size: 1rem;
+    margin: 0.7rem 0;
+  }
+}

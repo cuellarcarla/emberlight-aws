@@ -32,11 +32,11 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "supersecret")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['www.emberlight.karura.cat','emberlight.karura.cat', '54.209.17.170']
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '../staticfiles')  # Where collectstatic will put files
+STATIC_ROOT = os.path.join(BASE_DIR, '../../staticfiles')  # Where collectstatic will put files
 
 # For React's built static files
 STATICFILES_DIRS = [
@@ -83,14 +83,21 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True # To prevent errors like "blocked by CORS policy"
 CORS_ALLOWED_ORIGINS = [
     #"https://yourdomain.com",  # For React EC2 or Amplify deployment. Not in use yet.
-    "http://localhost:3000"    # For development
+    #"http://localhost:3000",
+    "https://www.emberlight.karura.cat"    # For development
 ]
 CORS_EXPOSE_HEADERS = ['X-CSRFToken']
 
 # Security, for production
-SESSION_COOKIE_SECURE = False    # HTTPS only
-CSRF_COOKIE_SECURE = False       # HTTPS only
-CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
+SESSION_COOKIE_SECURE = True    # HTTPS only
+CSRF_COOKIE_SECURE = True       # HTTPS only
+#CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
+CSRF_TRUSTED_ORIGINS = [
+    "https://www.emberlight.karura.cat",
+    "https://emberlight.karura.cat"
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Session authentication
 SESSION_COOKIE_SAMESITE = 'Lax'  # To prevent CSRF attacks

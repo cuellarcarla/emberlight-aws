@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../config';
 import React, { useState, useEffect } from 'react';
 import { format, startOfWeek, addDays } from 'date-fns';
 import { useAuth } from '../contexts/AuthContext';
@@ -31,7 +32,7 @@ function JournalPage() {
     // This functionality is handled by the Django endpoint + sessions.
     const fetchEntries = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/journal/entries/`, {
+        const response = await fetch(`${API_BASE_URL}/journal/entries/`, {
           credentials: 'include',
           headers: {
             "Content-Type": "application/json",
@@ -64,7 +65,7 @@ function JournalPage() {
     
       if (existingEntry) {
         // Update existing entry (PATCH)
-        response = await fetch(`http://localhost:8000/journal/entries/${existingEntry.id}/update/`, {
+        response = await fetch(`${API_BASE_URL}/journal/entries/${existingEntry.id}/update/`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -75,7 +76,7 @@ function JournalPage() {
         });
       } else {
         // Create new entry (POST)
-        response = await fetch(`http://localhost:8000/journal/entries/create/`, {
+        response = await fetch(`${API_BASE_URL}/journal/entries/create/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -108,7 +109,7 @@ function JournalPage() {
 
   const handleDeleteEntry = async (entryId) => {
     try {
-      const response = await fetch(`http://localhost:8000/journal/entries/${entryId}/delete/`, {
+      const response = await fetch(`${API_BASE_URL}/journal/entries/${entryId}/delete/`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

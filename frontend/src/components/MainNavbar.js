@@ -14,7 +14,6 @@ const MainNavbar = () => {
       </div>
       <div className="nav-right">
         <Link to="/about">Sobre nosotros</Link>
-        <Link to="/functionality">Funcionalidades</Link>
         <Link to="/contact">Contacto</Link>
         <Link to="/login" className={location.pathname === "/login" ? "disabled" : ""}>Login</Link>
         <Link to="/register">Regístrate</Link>

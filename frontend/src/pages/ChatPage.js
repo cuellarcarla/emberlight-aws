@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../config';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { getCookie } from '../utils/cookies';
@@ -20,7 +21,7 @@ function ChatPage() {
 
     const initializeChat = async () => {
       try {
-        const res = await fetch("http://localhost:8000/geminiapi/sessions/", {
+        const res = await fetch(`${API_BASE_URL}/geminiapi/sessions/`, {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
@@ -48,7 +49,7 @@ function ChatPage() {
 
     const fetchHistory = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/geminiapi/sessions/${activeSession}/`, {
+        const res = await fetch(`${API_BASE_URL}/geminiapi/sessions/${activeSession}/`, {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
@@ -76,7 +77,7 @@ function ChatPage() {
       
       // Create new session if none exists
       if (!sessionId) {
-        const newSessionRes = await fetch("http://localhost:8000/geminiapi/sessions/new/", {
+        const newSessionRes = await fetch(`${API_BASE_URL}/geminiapi/sessions/new/`, {
           method: "POST",
           credentials: "include",
           headers: {
@@ -92,7 +93,7 @@ function ChatPage() {
       }
 
       // Send message
-      const res = await fetch(`http://localhost:8000/geminiapi/sessions/${sessionId}/chat/`, {
+      const res = await fetch(`${API_BASE_URL}/geminiapi/sessions/${sessionId}/chat/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

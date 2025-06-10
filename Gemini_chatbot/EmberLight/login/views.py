@@ -10,9 +10,12 @@ from chat.models import ChatSession
 
 User = get_user_model() # We get the user from the setting.py
 
-@api_view(['POST'])
+@api_view(['POST', 'OPTIONS'])
 @permission_classes([AllowAny])
 def register(request):
+    if request.method == 'OPTIONS':
+        # Responde OK a la preflight de CORS
+        return Response(status=200)
     serializer = RegisterSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -59,20 +62,16 @@ def get_user(request, user_id):
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_user(request, user_id):
-
     user = get_object_or_404(User, id=user_id)
-
     if request.user != user:
         return Response(
             {"error": "Cannot update other users"},
             status=status.HTTP_403_FORBIDDEN
         )
-    
     serializer = UserSerializer(user, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-
     errors = {}
     for field, error_list in serializer.errors.items():
         errors[field] = error_list[0] if error_list else "Invalid value"
@@ -81,15 +80,12 @@ def update_user(request, user_id):
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def delete_user(request, user_id):
-
     user = get_object_or_404(User, id=user_id)
-
     if request.user != user:
         return Response(
             {"error": "Cannot delete other users"},
             status=status.HTTP_403_FORBIDDEN
         )
-    
     user.delete()
     logout(request)
     return Response(status=status.HTTP_204_NO_CONTENT)
@@ -98,13 +94,18 @@ def delete_user(request, user_id):
 @permission_classes([IsAuthenticated])
 def delete_user_data(request):
     user = request.user
-    
     JournalEntry.objects.filter(user=user).delete()
-    
     ChatSession.objects.filter(user=user).delete()
     # Note: ChatLogs will be deleted automatically due to CASCADE
-    
     return Response(
         {"message": "All your personal data has been deleted"},
         status=status.HTTP_204_NO_CONTENT
     )
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+@ensure_csrf_cookie
+def csrf(request):
+    return JsonResponse({'detail': 'CSRF cookie set'})
+
